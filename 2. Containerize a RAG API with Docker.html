@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><style id="react-aria-pressable-style">@layer {
+  [data-react-aria-pressable] {
+    touch-action: pan-x pan-y pinch-zoom;
+  }
+}</style>
+    <meta charset="UTF-8">
+     
+    <title>NextWork - Containerize a RAG API with Docker</title>
+    <meta content="Learn how professional DevOps engineers package applications for consistent deployment!" name="description">
+    <meta content="NextWork - Containerize a RAG API with Docker" property="og:title">
+    <meta content="Learn how professional DevOps engineers package applications for consistent deployment!" property="og:description">
+    <meta content="NextWork - Containerize a RAG API with Docker" property="twitter:title">
+    <meta content="Learn how professional DevOps engineers package applications for consistent deployment!" property="twitter:description">
+    
+    <meta content="/static/og-project.png" property="og:image">
+    <meta content="/static/og-project.png" property="twitter:image">
+    
+    <meta property="og:type" content="website">
+    <meta content="summary_large_image" name="twitter:card">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    
+    <link rel="canonical" href="https://learn.nextwork.org/projects/ai-devops-docker?track=high">
+     
+    <meta content="https://learn.nextwork.org/projects/ai-devops-docker?track=high" property="og:url">
+    
+    <meta content="NextWork" property="og:site_name">
+    <meta property="og:locale" content="en_US">
+
+    
+    
+    <script type="text/javascript" crossorigin="anonymous" async="" src="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/array.js"></script><script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"LearningResource","about":"AI","description":"Learn how professional DevOps engineers package applications for consistent deployment!","educationalLevel":"Pretty spicy","estimatedCost":"$0","inLanguage":"en-US","learningResourceType":["Tutorial","Hands-on Project"],"name":"Containerize a RAG API with Docker","provider":{"@type":"Organization","name":"NextWork"},"teaches":"Learn how professional DevOps engineers package applications for consistent deployment!","timeRequired":"PT90M","tool":["Part 1: \u003cu\u003e\u003ca target=\"_blank\" href=\"https://learn.nextwork.org/projects/ai-devops-api\"\u003eBuild a RAG API with FastAPI\u003c/a\u003e\u003c/u\u003e","Part 2: You are here!","Part 3: \u003cu\u003e\u003ca target=\"_blank\" href=\"https://learn.nextwork.org/projects/ai-devops-kubernetes\"\u003eDeploy to Kubernetes\u003c/a\u003e\u003c/u\u003e","Part 4: \u003cu\u003e\u003ca target=\"_blank\" href=\"https://learn.nextwork.org/projects/ai-devops-githubactions\"\u003eAutomate with GitHub Actions\u003c/a\u003e\u003c/u\u003e"],"url":"https://learn.nextwork.org/projects/ai-devops-docker?track=high"}
+    </script>
+    
+
+    <link rel="icon" href="https://learn.nextwork.org/favicon.ico?v=2" sizes="32x32">
+    <link rel="icon" href="https://learn.nextwork.org/static/favicon.svg?v=2" type="image/svg+xml">
+
+    
+    <link rel="preload" href="https://learn.nextwork.org/static/fonts/fk-grotesk-neue/woff2/FKGroteskNeue-Regular.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://learn.nextwork.org/static/fonts/fk-grotesk-neue/woff2/FKGroteskNeue-Medium.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://learn.nextwork.org/static/fonts/suisse-neue/woff2/SuisseNeue-Regular-WebS.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://learn.nextwork.org/static/fonts/suisse-neue/woff2/SuisseNeue-Medium-WebS.woff2" as="font" type="font/woff2" crossorigin="">
+
+    
+	<link rel="stylesheet" href="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/entry-e4fb6234.css">
+	<script type="module" src="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/entry-609d9483.js"></script>
+	<link rel="modulepreload" href="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/entry-609d9483.js"><link rel="modulepreload" href="https://learn.nextwork.org/static/assets/chunk-c5e4869d.js"><link rel="modulepreload" href="https://learn.nextwork.org/static/assets/document_components-ed185cda.js">
+
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overscroll-behavior: none;
+        background-color: #f8f5f1;
+      }
+    </style>
+  <style type="text/css">[data-sonner-toaster][dir=ltr],html[dir=ltr]{--toast-icon-margin-start:-3px;--toast-icon-margin-end:4px;--toast-svg-margin-start:-1px;--toast-svg-margin-end:0px;--toast-button-margin-start:auto;--toast-button-margin-end:0;--toast-close-button-start:0;--toast-close-button-end:unset;--toast-close-button-transform:translate(-35%, -35%)}[data-sonner-toaster][dir=rtl],html[dir=rtl]{--toast-icon-margin-start:4px;--toast-icon-margin-end:-3px;--toast-svg-margin-start:0px;--toast-svg-margin-end:-1px;--toast-button-margin-start:0;--toast-button-margin-end:auto;--toast-close-button-start:unset;--toast-close-button-end:0;--toast-close-button-transform:translate(35%, -35%)}[data-sonner-toaster]{position:fixed;width:var(--width);font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;--gray1:hsl(0, 0%, 99%);--gray2:hsl(0, 0%, 97.3%);--gray3:hsl(0, 0%, 95.1%);--gray4:hsl(0, 0%, 93%);--gray5:hsl(0, 0%, 90.9%);--gray6:hsl(0, 0%, 88.7%);--gray7:hsl(0, 0%, 85.8%);--gray8:hsl(0, 0%, 78%);--gray9:hsl(0, 0%, 56.1%);--gray10:hsl(0, 0%, 52.3%);--gray11:hsl(0, 0%, 43.5%);--gray12:hsl(0, 0%, 9%);--border-radius:8px;box-sizing:border-box;padding:0;margin:0;list-style:none;outline:0;z-index:999999999;transition:transform .4s ease}@media (hover:none) and (pointer:coarse){[data-sonner-toaster][data-lifted=true]{transform:none}}[data-sonner-toaster][data-x-position=right]{right:var(--offset-right)}[data-sonner-toaster][data-x-position=left]{left:var(--offset-left)}[data-sonner-toaster][data-x-position=center]{left:50%;transform:translateX(-50%)}[data-sonner-toaster][data-y-position=top]{top:var(--offset-top)}[data-sonner-toaster][data-y-position=bottom]{bottom:var(--offset-bottom)}[data-sonner-toast]{--y:translateY(100%);--lift-amount:calc(var(--lift) * var(--gap));z-index:var(--z-index);position:absolute;opacity:0;transform:var(--y);touch-action:none;transition:transform .4s,opacity .4s,height .4s,box-shadow .2s;box-sizing:border-box;outline:0;overflow-wrap:anywhere}[data-sonner-toast][data-styled=true]{padding:16px;background:var(--normal-bg);border:1px solid var(--normal-border);color:var(--normal-text);border-radius:var(--border-radius);box-shadow:0 4px 12px rgba(0,0,0,.1);width:var(--width);font-size:13px;display:flex;align-items:center;gap:6px}[data-sonner-toast]:focus-visible{box-shadow:0 4px 12px rgba(0,0,0,.1),0 0 0 2px rgba(0,0,0,.2)}[data-sonner-toast][data-y-position=top]{top:0;--y:translateY(-100%);--lift:1;--lift-amount:calc(1 * var(--gap))}[data-sonner-toast][data-y-position=bottom]{bottom:0;--y:translateY(100%);--lift:-1;--lift-amount:calc(var(--lift) * var(--gap))}[data-sonner-toast][data-styled=true] [data-description]{font-weight:400;line-height:1.4;color:#3f3f3f}[data-rich-colors=true][data-sonner-toast][data-styled=true] [data-description]{color:inherit}[data-sonner-toaster][data-sonner-theme=dark] [data-description]{color:#e8e8e8}[data-sonner-toast][data-styled=true] [data-title]{font-weight:500;line-height:1.5;color:inherit}[data-sonner-toast][data-styled=true] [data-icon]{display:flex;height:16px;width:16px;position:relative;justify-content:flex-start;align-items:center;flex-shrink:0;margin-left:var(--toast-icon-margin-start);margin-right:var(--toast-icon-margin-end)}[data-sonner-toast][data-promise=true] [data-icon]>svg{opacity:0;transform:scale(.8);transform-origin:center;animation:sonner-fade-in .3s ease forwards}[data-sonner-toast][data-styled=true] [data-icon]>*{flex-shrink:0}[data-sonner-toast][data-styled=true] [data-icon] svg{margin-left:var(--toast-svg-margin-start);margin-right:var(--toast-svg-margin-end)}[data-sonner-toast][data-styled=true] [data-content]{display:flex;flex-direction:column;gap:2px}[data-sonner-toast][data-styled=true] [data-button]{border-radius:4px;padding-left:8px;padding-right:8px;height:24px;font-size:12px;color:var(--normal-bg);background:var(--normal-text);margin-left:var(--toast-button-margin-start);margin-right:var(--toast-button-margin-end);border:none;font-weight:500;cursor:pointer;outline:0;display:flex;align-items:center;flex-shrink:0;transition:opacity .4s,box-shadow .2s}[data-sonner-toast][data-styled=true] [data-button]:focus-visible{box-shadow:0 0 0 2px rgba(0,0,0,.4)}[data-sonner-toast][data-styled=true] [data-button]:first-of-type{margin-left:var(--toast-button-margin-start);margin-right:var(--toast-button-margin-end)}[data-sonner-toast][data-styled=true] [data-cancel]{color:var(--normal-text);background:rgba(0,0,0,.08)}[data-sonner-toaster][data-sonner-theme=dark] [data-sonner-toast][data-styled=true] [data-cancel]{background:rgba(255,255,255,.3)}[data-sonner-toast][data-styled=true] [data-close-button]{position:absolute;left:var(--toast-close-button-start);right:var(--toast-close-button-end);top:0;height:20px;width:20px;display:flex;justify-content:center;align-items:center;padding:0;color:var(--gray12);background:var(--normal-bg);border:1px solid var(--gray4);transform:var(--toast-close-button-transform);border-radius:50%;cursor:pointer;z-index:1;transition:opacity .1s,background .2s,border-color .2s}[data-sonner-toast][data-styled=true] [data-close-button]:focus-visible{box-shadow:0 4px 12px rgba(0,0,0,.1),0 0 0 2px rgba(0,0,0,.2)}[data-sonner-toast][data-styled=true] [data-disabled=true]{cursor:not-allowed}[data-sonner-toast][data-styled=true]:hover [data-close-button]:hover{background:var(--gray2);border-color:var(--gray5)}[data-sonner-toast][data-swiping=true]::before{content:'';position:absolute;left:-100%;right:-100%;height:100%;z-index:-1}[data-sonner-toast][data-y-position=top][data-swiping=true]::before{bottom:50%;transform:scaleY(3) translateY(50%)}[data-sonner-toast][data-y-position=bottom][data-swiping=true]::before{top:50%;transform:scaleY(3) translateY(-50%)}[data-sonner-toast][data-swiping=false][data-removed=true]::before{content:'';position:absolute;inset:0;transform:scaleY(2)}[data-sonner-toast][data-expanded=true]::after{content:'';position:absolute;left:0;height:calc(var(--gap) + 1px);bottom:100%;width:100%}[data-sonner-toast][data-mounted=true]{--y:translateY(0);opacity:1}[data-sonner-toast][data-expanded=false][data-front=false]{--scale:var(--toasts-before) * 0.05 + 1;--y:translateY(calc(var(--lift-amount) * var(--toasts-before))) scale(calc(-1 * var(--scale)));height:var(--front-toast-height)}[data-sonner-toast]>*{transition:opacity .4s}[data-sonner-toast][data-x-position=right]{right:0}[data-sonner-toast][data-x-position=left]{left:0}[data-sonner-toast][data-expanded=false][data-front=false][data-styled=true]>*{opacity:0}[data-sonner-toast][data-visible=false]{opacity:0;pointer-events:none}[data-sonner-toast][data-mounted=true][data-expanded=true]{--y:translateY(calc(var(--lift) * var(--offset)));height:var(--initial-height)}[data-sonner-toast][data-removed=true][data-front=true][data-swipe-out=false]{--y:translateY(calc(var(--lift) * -100%));opacity:0}[data-sonner-toast][data-removed=true][data-front=false][data-swipe-out=false][data-expanded=true]{--y:translateY(calc(var(--lift) * var(--offset) + var(--lift) * -100%));opacity:0}[data-sonner-toast][data-removed=true][data-front=false][data-swipe-out=false][data-expanded=false]{--y:translateY(40%);opacity:0;transition:transform .5s,opacity .2s}[data-sonner-toast][data-removed=true][data-front=false]::before{height:calc(var(--initial-height) + 20%)}[data-sonner-toast][data-swiping=true]{transform:var(--y) translateY(var(--swipe-amount-y,0)) translateX(var(--swipe-amount-x,0));transition:none}[data-sonner-toast][data-swiped=true]{user-select:none}[data-sonner-toast][data-swipe-out=true][data-y-position=bottom],[data-sonner-toast][data-swipe-out=true][data-y-position=top]{animation-duration:.2s;animation-timing-function:ease-out;animation-fill-mode:forwards}[data-sonner-toast][data-swipe-out=true][data-swipe-direction=left]{animation-name:swipe-out-left}[data-sonner-toast][data-swipe-out=true][data-swipe-direction=right]{animation-name:swipe-out-right}[data-sonner-toast][data-swipe-out=true][data-swipe-direction=up]{animation-name:swipe-out-up}[data-sonner-toast][data-swipe-out=true][data-swipe-direction=down]{animation-name:swipe-out-down}@keyframes swipe-out-left{from{transform:var(--y) translateX(var(--swipe-amount-x));opacity:1}to{transform:var(--y) translateX(calc(var(--swipe-amount-x) - 100%));opacity:0}}@keyframes swipe-out-right{from{transform:var(--y) translateX(var(--swipe-amount-x));opacity:1}to{transform:var(--y) translateX(calc(var(--swipe-amount-x) + 100%));opacity:0}}@keyframes swipe-out-up{from{transform:var(--y) translateY(var(--swipe-amount-y));opacity:1}to{transform:var(--y) translateY(calc(var(--swipe-amount-y) - 100%));opacity:0}}@keyframes swipe-out-down{from{transform:var(--y) translateY(var(--swipe-amount-y));opacity:1}to{transform:var(--y) translateY(calc(var(--swipe-amount-y) + 100%));opacity:0}}@media (max-width:600px){[data-sonner-toaster]{position:fixed;right:var(--mobile-offset-right);left:var(--mobile-offset-left);width:100%}[data-sonner-toaster][dir=rtl]{left:calc(var(--mobile-offset-left) * -1)}[data-sonner-toaster] [data-sonner-toast]{left:0;right:0;width:calc(100% - var(--mobile-offset-left) * 2)}[data-sonner-toaster][data-x-position=left]{left:var(--mobile-offset-left)}[data-sonner-toaster][data-y-position=bottom]{bottom:var(--mobile-offset-bottom)}[data-sonner-toaster][data-y-position=top]{top:var(--mobile-offset-top)}[data-sonner-toaster][data-x-position=center]{left:var(--mobile-offset-left);right:var(--mobile-offset-right);transform:none}}[data-sonner-toaster][data-sonner-theme=light]{--normal-bg:#fff;--normal-border:var(--gray4);--normal-text:var(--gray12);--success-bg:hsl(143, 85%, 96%);--success-border:hsl(145, 92%, 87%);--success-text:hsl(140, 100%, 27%);--info-bg:hsl(208, 100%, 97%);--info-border:hsl(221, 91%, 93%);--info-text:hsl(210, 92%, 45%);--warning-bg:hsl(49, 100%, 97%);--warning-border:hsl(49, 91%, 84%);--warning-text:hsl(31, 92%, 45%);--error-bg:hsl(359, 100%, 97%);--error-border:hsl(359, 100%, 94%);--error-text:hsl(360, 100%, 45%)}[data-sonner-toaster][data-sonner-theme=light] [data-sonner-toast][data-invert=true]{--normal-bg:#000;--normal-border:hsl(0, 0%, 20%);--normal-text:var(--gray1)}[data-sonner-toaster][data-sonner-theme=dark] [data-sonner-toast][data-invert=true]{--normal-bg:#fff;--normal-border:var(--gray3);--normal-text:var(--gray12)}[data-sonner-toaster][data-sonner-theme=dark]{--normal-bg:#000;--normal-bg-hover:hsl(0, 0%, 12%);--normal-border:hsl(0, 0%, 20%);--normal-border-hover:hsl(0, 0%, 25%);--normal-text:var(--gray1);--success-bg:hsl(150, 100%, 6%);--success-border:hsl(147, 100%, 12%);--success-text:hsl(150, 86%, 65%);--info-bg:hsl(215, 100%, 6%);--info-border:hsl(223, 43%, 17%);--info-text:hsl(216, 87%, 65%);--warning-bg:hsl(64, 100%, 6%);--warning-border:hsl(60, 100%, 9%);--warning-text:hsl(46, 87%, 65%);--error-bg:hsl(358, 76%, 10%);--error-border:hsl(357, 89%, 16%);--error-text:hsl(358, 100%, 81%)}[data-sonner-toaster][data-sonner-theme=dark] [data-sonner-toast] [data-close-button]{background:var(--normal-bg);border-color:var(--normal-border);color:var(--normal-text)}[data-sonner-toaster][data-sonner-theme=dark] [data-sonner-toast] [data-close-button]:hover{background:var(--normal-bg-hover);border-color:var(--normal-border-hover)}[data-rich-colors=true][data-sonner-toast][data-type=success]{background:var(--success-bg);border-color:var(--success-border);color:var(--success-text)}[data-rich-colors=true][data-sonner-toast][data-type=success] [data-close-button]{background:var(--success-bg);border-color:var(--success-border);color:var(--success-text)}[data-rich-colors=true][data-sonner-toast][data-type=info]{background:var(--info-bg);border-color:var(--info-border);color:var(--info-text)}[data-rich-colors=true][data-sonner-toast][data-type=info] [data-close-button]{background:var(--info-bg);border-color:var(--info-border);color:var(--info-text)}[data-rich-colors=true][data-sonner-toast][data-type=warning]{background:var(--warning-bg);border-color:var(--warning-border);color:var(--warning-text)}[data-rich-colors=true][data-sonner-toast][data-type=warning] [data-close-button]{background:var(--warning-bg);border-color:var(--warning-border);color:var(--warning-text)}[data-rich-colors=true][data-sonner-toast][data-type=error]{background:var(--error-bg);border-color:var(--error-border);color:var(--error-text)}[data-rich-colors=true][data-sonner-toast][data-type=error] [data-close-button]{background:var(--error-bg);border-color:var(--error-border);color:var(--error-text)}.sonner-loading-wrapper{--size:16px;height:var(--size);width:var(--size);position:absolute;inset:0;z-index:10}.sonner-loading-wrapper[data-visible=false]{transform-origin:center;animation:sonner-fade-out .2s ease forwards}.sonner-spinner{position:relative;top:50%;left:50%;height:var(--size);width:var(--size)}.sonner-loading-bar{animation:sonner-spin 1.2s linear infinite;background:var(--gray11);border-radius:6px;height:8%;left:-10%;position:absolute;top:-3.9%;width:24%}.sonner-loading-bar:first-child{animation-delay:-1.2s;transform:rotate(.0001deg) translate(146%)}.sonner-loading-bar:nth-child(2){animation-delay:-1.1s;transform:rotate(30deg) translate(146%)}.sonner-loading-bar:nth-child(3){animation-delay:-1s;transform:rotate(60deg) translate(146%)}.sonner-loading-bar:nth-child(4){animation-delay:-.9s;transform:rotate(90deg) translate(146%)}.sonner-loading-bar:nth-child(5){animation-delay:-.8s;transform:rotate(120deg) translate(146%)}.sonner-loading-bar:nth-child(6){animation-delay:-.7s;transform:rotate(150deg) translate(146%)}.sonner-loading-bar:nth-child(7){animation-delay:-.6s;transform:rotate(180deg) translate(146%)}.sonner-loading-bar:nth-child(8){animation-delay:-.5s;transform:rotate(210deg) translate(146%)}.sonner-loading-bar:nth-child(9){animation-delay:-.4s;transform:rotate(240deg) translate(146%)}.sonner-loading-bar:nth-child(10){animation-delay:-.3s;transform:rotate(270deg) translate(146%)}.sonner-loading-bar:nth-child(11){animation-delay:-.2s;transform:rotate(300deg) translate(146%)}.sonner-loading-bar:nth-child(12){animation-delay:-.1s;transform:rotate(330deg) translate(146%)}@keyframes sonner-fade-in{0%{opacity:0;transform:scale(.8)}100%{opacity:1;transform:scale(1)}}@keyframes sonner-fade-out{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.8)}}@keyframes sonner-spin{0%{opacity:1}100%{opacity:.15}}@media (prefers-reduced-motion){.sonner-loading-bar,[data-sonner-toast],[data-sonner-toast]>*{transition:none!important;animation:none!important}}.sonner-loader{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);transform-origin:center;transition:opacity .2s,transform .2s}.sonner-loader[data-visible=false]{opacity:0;transform:scale(.8) translate(-50%,-50%)}</style><link rel="modulepreload" as="script" crossorigin="" href="https://learn.nextwork.org/static/assets/chunk-ae8a1670.js"><link rel="modulepreload" as="script" crossorigin="" href="https://learn.nextwork.org/static/assets/chunk-8ac71b35.js"><link rel="modulepreload" as="script" crossorigin="" href="https://learn.nextwork.org/static/assets/chunk-cb377904.js"><link rel="modulepreload" as="script" crossorigin="" href="https://learn.nextwork.org/static/assets/chunk-f5dbf9e0.js"><link rel="modulepreload" as="script" crossorigin="" href="https://learn.nextwork.org/static/assets/chunk-c1a0c4c5.js"><link rel="stylesheet" href="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/asset-ca5035c8.css"><link rel="modulepreload" as="script" crossorigin="" href="https://learn.nextwork.org/static/assets/chunk-dc70666a.js"><link rel="stylesheet" href="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/asset-b4a084bf.css"><link rel="modulepreload" as="script" crossorigin="" href="https://learn.nextwork.org/static/assets/chunk-d96e17d5.js"><link rel="modulepreload" as="script" crossorigin="" href="https://learn.nextwork.org/static/assets/chunk-c62d55f6.js"><link rel="modulepreload" as="script" crossorigin="" href="https://learn.nextwork.org/static/assets/chunk-43d8f158.js"><link rel="stylesheet" href="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/asset-3af01664.css"><style>.voice-visualizer__buttons-container{display:flex;justify-content:center;align-items:center;column-gap:20px;row-gap:15px;flex-wrap:wrap;margin-bottom:40px}.voice-visualizer__btn-center{box-sizing:border-box;flex-shrink:0;width:60px;height:60px;padding:0;display:flex;justify-content:center;align-items:center;border-radius:50%;background-color:#fff;border:4px solid #c5c5c5;outline:none;cursor:pointer;transition:border-color .3s,background-color .3s}.voice-visualizer__btn-center:disabled{opacity:.85;cursor:default}.voice-visualizer__btn-center:hover{background-color:#eaeaea;border:4px solid #9f9f9f}.voice-visualizer__btn-center>img{width:auto;height:50%;max-height:30px}.voice-visualizer__btn-center.voice-visualizer__btn-center-pause{background-color:#ff3030}.voice-visualizer__btn-center.voice-visualizer__btn-center-pause:hover{background-color:#ff4f4f}.voice-visualizer__btn-center.voice-visualizer__btn-center-pause>img{height:50%;max-height:16px}.voice-visualizer__btn-center.voice-visualizer__btn-center--border-transparent{border-color:transparent}.voice-visualizer__btn-center.voice-visualizer__btn-center--border-transparent:hover{background-color:#fff}.voice-visualizer__btn-left{box-sizing:border-box;flex-shrink:0;width:60px;height:60px;padding:0;display:flex;justify-content:center;align-items:center;border-radius:50%;background-color:#ff3030;border:4px solid #c5c5c5;outline:none;cursor:pointer;transition:border-color .3s,background-color .3s,opacity .3s}.voice-visualizer__btn-container{min-width:100px;display:flex;justify-content:flex-end}.voice-visualizer__btn-left:hover{background-color:#ff4f4f}.voice-visualizer__btn-left:disabled{opacity:.6;background-color:#ff3030;cursor:default}.voice-visualizer__btn-left.voice-visualizer__btn-left-microphone{background-color:#fff}.voice-visualizer__btn-left.voice-visualizer__btn-left-microphone>img{width:auto;height:50%;max-height:30px}.voice-visualizer__btn-left>img{width:auto;height:50%;max-height:16px}.voice-visualizer__btn-left:hover{border:4px solid #9f9f9f}.voice-visualizer__btn{box-sizing:border-box;min-width:100px;min-height:60px;padding:5px 20px;border-radius:40px;font-size:15px;background-color:#f0f0f0;transition:background-color .3s,opacity .3s}.voice-visualizer__btn:disabled{opacity:.8;background-color:#f0f0f0;cursor:default}.voice-visualizer__btn:hover{background-color:#bebebe}.voice-visualizer__canvas-container{position:relative;width:fit-content;margin:0 auto;overflow:hidden}.voice-visualizer__canvas-container canvas{display:block}.voice-visualizer__canvas-microphone-btn{position:absolute;top:50%;left:50%;width:auto;max-width:12%;min-width:24px;height:50%;max-height:100px;background-color:transparent;border:none;outline:none;transform:translate(-50%,-50%)}.voice-visualizer__canvas-microphone-icon{width:100%;height:100%;will-change:transform;transition:transform .3s}.voice-visualizer__canvas-microphone-btn:hover .voice-visualizer__canvas-microphone-icon{transform:scale(1.03)}.voice-visualizer__canvas-audio-wave-icon{position:absolute;top:50%;left:50%;width:auto;max-width:40%;height:40%;max-height:100px;transform:translate(-118%,-50%) scale(-1)}.voice-visualizer__canvas-audio-wave-icon2{transform:translate(18%,-50%)}.voice-visualizer__canvas-audio-processing{position:absolute;top:50%;left:50%;margin:0;transform:translate(-50%,-50%)}.voice-visualizer__progress-indicator-hovered{position:absolute;top:0;pointer-events:none;height:100%;width:1px;background-color:#85858599}.voice-visualizer__progress-indicator-hovered-time{position:absolute;top:3%;left:1px;width:fit-content;margin:0;padding:0 7px;opacity:.8;font-size:12px;border-radius:0 4px 4px 0;background-color:#575757;text-align:left}.voice-visualizer__progress-indicator-hovered-time.voice-visualizer__progress-indicator-hovered-time-left{left:unset;right:1px;border-radius:4px 0 0 4px}.voice-visualizer__progress-indicator{position:absolute;top:0;pointer-events:none;height:100%;width:1px;background-color:#efefef}.voice-visualizer__progress-indicator-time{position:absolute;top:3%;left:1px;width:fit-content;box-sizing:border-box;min-width:37px;margin:0;padding:0 7px;font-size:12px;border-radius:0 4px 4px 0;text-align:left;color:#000;font-weight:500;background-color:#efefef}.voice-visualizer__progress-indicator-time.voice-visualizer__progress-indicator-time-left{left:unset;right:1px;border-radius:4px 0 0 4px}.voice-visualizer__audio-info-container{box-sizing:border-box;height:55px;display:flex;align-items:center;justify-content:center;gap:30px}.voice-visualizer__audio-info-time{margin:15px 0;min-width:38px;text-align:left}.voice-visualizer__visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:4px solid #c5c5c5;white-space:nowrap;clip-path:inset(100%);clip:rect(0 0 0 0);overflow:hidden}.voice-visualizer__relative{position:relative}.voice-visualizer__spinner-wrapper{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;display:flex;justify-content:center;align-items:center}.voice-visualizer__spinner{flex-shrink:0;width:100%;height:100%;border:4px solid rgba(197,197,197,.5);border-radius:50%;border-top-color:#b7b7b7;animation:voice-visualizer__spin 1s ease-in-out infinite;-webkit-animation:voice-visualizer__spin 1s ease-in-out infinite}@keyframes voice-visualizer__spin{to{transform:rotate(360deg)}}@-webkit-keyframes voice-visualizer__spin{to{transform:rotate(360deg)}}</style><link rel="modulepreload" as="script" crossorigin="" href="https://learn.nextwork.org/static/assets/chunk-25332177.js"><link rel="stylesheet" href="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/asset-ba8e4edd.css"><link rel="modulepreload" as="script" crossorigin="" href="https://learn.nextwork.org/static/assets/chunk-63fc1e9c.js"><link rel="modulepreload" as="script" crossorigin="" href="https://learn.nextwork.org/static/assets/chunk-24e72bea.js"><link rel="modulepreload" as="script" crossorigin="" href="https://learn.nextwork.org/static/assets/chunk-b7da3ad7.js"><link rel="stylesheet" href="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/asset-e0e34712.css"><style data-tiptap-style="">.ProseMirror {
+  position: relative;
+}
+
+.ProseMirror {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  white-space: break-spaces;
+  -webkit-font-variant-ligatures: none;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0; /* the above doesn't seem to work in Edge */
+}
+
+.ProseMirror [contenteditable="false"] {
+  white-space: normal;
+}
+
+.ProseMirror [contenteditable="false"] [contenteditable="true"] {
+  white-space: pre-wrap;
+}
+
+.ProseMirror pre {
+  white-space: pre-wrap;
+}
+
+img.ProseMirror-separator {
+  display: inline !important;
+  border: none !important;
+  margin: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.ProseMirror-gapcursor {
+  display: none;
+  pointer-events: none;
+  position: absolute;
+  margin: 0;
+}
+
+.ProseMirror-gapcursor:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -2px;
+  width: 20px;
+  border-top: 1px solid black;
+  animation: ProseMirror-cursor-blink 1.1s steps(2, start) infinite;
+}
+
+@keyframes ProseMirror-cursor-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+.ProseMirror-hideselection *::selection {
+  background: transparent;
+}
+
+.ProseMirror-hideselection *::-moz-selection {
+  background: transparent;
+}
+
+.ProseMirror-hideselection * {
+  caret-color: transparent;
+}
+
+.ProseMirror-focused .ProseMirror-gapcursor {
+  display: block;
+}
+
+.tippy-box[data-animation=fade][data-state=hidden] {
+  opacity: 0
+}</style><link rel="modulepreload" as="script" crossorigin="" href="https://learn.nextwork.org/static/assets/chunk-fa801058.js"><link rel="modulepreload" as="script" crossorigin="" href="https://learn.nextwork.org/static/assets/chunk-ed73d4bf.js"><link rel="modulepreload" as="script" crossorigin="" href="https://learn.nextwork.org/static/assets/chunk-b0136391.js"></head>
+
+  <body>
+    <script id="nw-bootstrap">
+      window.__PRELOADED_STATE__ = "eyJ1c2VyIjp7ImVtYWlsIjoiYW5kcmV3LnRydW5naHBiQGdtYWlsLmNvbSIsImV4cCI6MTc2OTcxMTkwMCwiaWQiOiI4TlNHMlUyV0dBRzRFeHhURGZqYSIsIm5hbWUiOiJUcnVuZyBIUEIiLCJuaWNrbmFtZSI6ImNvbnRlbnRfcHVycGxlX215c3RlcmlvdXNfY2FudGFsb3VwZSIsInBpY3R1cmUiOiJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NMbHA5cmx0Tmg3anJWRzY1YklmNU55aXBqRmhmQm1BMVVKM2xFUWl2UG1UUlBUY0E9czk2LWMiLCJwbGFuIjoiZnJlZSJ9LCJwcmVmZXJlbmNlcyI6eyJjdXJyZW50UHJvamVjdCI6ImFpLWRldm9wcy1hcGkiLCJkYXlzUGVyV2VlayI6NSwiaG91cnNQZXJEYXkiOjEsInNlbGVjdGVkQ2F0ZWdvcmllcyI6bnVsbH0sImZlYXR1cmVzIjp7ImFwcC5hcHBfdmVyc2lvbl9yZWxvYWRpbmciOnRydWUsImFwcC5tYW5hZ2Vfc3Vic2NyaXB0aW9uX3BvcnRhbCI6dHJ1ZSwiYXBwLnBvcnRmb2xpbyI6dHJ1ZSwiYXBwLnJlbmRlcl9yZWFjdF9zaGVsbCI6dHJ1ZSwiZ2VuZXJhbC5wcm9kIjp0cnVlLCJwcm9qZWN0cy5jaGF0X3Rvb2xiYXIiOnRydWUsInByb2plY3RzLmNvdXJzZV90cmFjayI6dHJ1ZSwicHJvamVjdHMuY3VzdG9tX2xvZ2luIjp0cnVlLCJwcm9qZWN0cy5lZGl0b3IiOnRydWUsInByb2plY3RzLmhpZ2hsaWdodHMiOnRydWUsInByb2plY3RzLmxpdmVfZG9jc19kcmF3Ijp0cnVlLCJwcm9qZWN0cy5sb2dpbiI6dHJ1ZSwicHJvamVjdHMubmF2VjIiOnRydWUsInByb2plY3RzLnBheW1lbnRzIjp0cnVlLCJwcm9qZWN0cy5wZGZfZG93bmxvYWRpbmciOnRydWUsInByb2plY3RzLnByb2plY3RfaW5fcHJvZ3Jlc3Nfc3RhdHVzIjp0cnVlLCJwcm9qZWN0cy5zaGFyaW5nVjIiOnRydWUsInByb2plY3RzLnNpbXBsaWZ5Ijp0cnVlfSwiYXBwU2V0dGluZ3MiOnsiYXBwVmVyc2lvbiI6IjEuMC4xIn0sImxpbWl0cyI6eyJwb3J0Zm9saW9Eb2N1bWVudCI6eyJsaW1pdCI6eyJmcmVlIjozLCJwcm8iOjEwMDAwMDB9fSwicXVpekNvbXBsZXRpb24iOnsibGltaXQiOnsiZnJlZSI6NSwicHJvIjoxMDAwMDAwfX0sInZhbGlkYXRpb25UZXh0Q2hhcmFjdGVyIjp7ImxpbWl0Ijp7ImZyZWUiOjI1MCwicHJvIjoxMDAwfX19LCJwcm9qZWN0Ijp7ImNvbXBsZXRlZEJ5IjpbImh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0lfclRrUTFBNm1MN0RkN0dNNy1TR1pZZ3BvbzVETGN1ZmJaS2M2VXRUMDVrRUNYakVEPXM5Ni1jIiwiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSTAtOWtwbHlGQzBSX21tSHQ3TzI0MWRMbVFvMEVGUkdJZExIRTVBNUExWktXN1FqcjY9czk2LWMiLCJodHRwczovL3MuZ3JhdmF0YXIuY29tL2F2YXRhci9mYzQyYWY0OTE0ZmZiNTk4M2JmNjk1YmFlNzRmY2Y5Nj9zPTQ4MFx1MDAyNnI9cGdcdTAwMjZkPWh0dHBzJTNBJTJGJTJGY2RuLmF1dGgwLmNvbSUyRmF2YXRhcnMlMkZ2ZS5wbmciLCJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NLMkZ0YUNrZnAxVDZ5SUNDVVE0bzQ1TXBtcV82QVkzbWJkMmxGSzJHWFJJdWo5Ymc9czk2LWMiLCJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NKLUkxeURkTEV3TW56TTI1LTdITFBnUDIySndsbVJsdFczX0RKaEtuc2p3cEJsS3ZBaj1zOTYtYyIsImh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0ozbmg1N1VvN1JJNGV4X0VldG1lQmZLSjhFbXNtMjR6SU5tRng0aG5fR0pyMUtzMjRwPXM5Ni1jIiwiaHR0cHM6Ly9zLmdyYXZhdGFyLmNvbS9hdmF0YXIvZjljNDUwNzE3YjM2ZjMzMDY4YWYwYWU3MTU0MDdhOWQ/cz00ODBcdTAwMjZyPXBnXHUwMDI2ZD1odHRwcyUzQSUyRiUyRmNkbi5hdXRoMC5jb20lMkZhdmF0YXJzJTJGc2EucG5nIiwiaHR0cHM6Ly9saDMuZ29vZ2xldXNlcmNvbnRlbnQuY29tL2EvQUNnOG9jSUppLXVLSmpmZTk1RjBkUXNvdVRsbGI3Y1BVWlZ6WW0xQ1hyXzkwRGFxakdjTV83cFU9czk2LWMiLCJodHRwczovL2xoMy5nb29nbGV1c2VyY29udGVudC5jb20vYS9BQ2c4b2NJZ0FRWUNqYmxtNi11SS1PdlJDQ0ZnWUFiMXk2Z0JPMlFsby1LdEVOdlBUdTNIekE9czk2LWMiLCJodHRwczovL3MuZ3JhdmF0YXIuY29tL2F2YXRhci8xNjVlOWQxMjkzOTRhY2E4ZDcwZTAxOWMzOWI0OGIxNj9zPTQ4MFx1MDAyNnI9cGdcdTAwMjZkPWh0dHBzJTNBJTJGJTJGY2RuLmF1dGgwLmNvbSUyRmF2YXRhcnMlMkZmYS5wbmciXSwiY29tcGxldGlvbnMiOjgxLCJoYXNVcGRhdGVzIjpmYWxzZSwiaWQiOiJhaS1kZXZvcHMtZG9ja2VyIiwibG9ja2VkIjp0cnVlLCJtZXRhZGF0YSI6eyJjYXRlZ29yeSI6IkRldk9wcyB4IEFJIiwiY29uY2VwdHMiOlsiQUkiLCJcdTAwM2N1XHUwMDNlXHUwMDNjYSB0YXJnZXQ9XCJfYmxhbmtcIiBocmVmPVwiaHR0cHM6Ly9kb2NzLmRvY2tlci5jb20vXCJcdTAwM2VEb2NrZXJcdTAwM2MvYVx1MDAzZVx1MDAzYy91XHUwMDNlIiwiXHUwMDNjdVx1MDAzZVx1MDAzY2EgdGFyZ2V0PVwiX2JsYW5rXCIgaHJlZj1cImh0dHBzOi8vaHViLmRvY2tlci5jb20vXCJcdTAwM2VEb2NrZXIgSHViXHUwMDNjL2FcdTAwM2VcdTAwM2MvdVx1MDAzZSIsIlx1MDAzY3VcdTAwM2VcdTAwM2NhIHRhcmdldD1cIl9ibGFua1wiIGhyZWY9XCJodHRwczovL2Zhc3RhcGkudGlhbmdvbG8uY29tL1wiXHUwMDNlRmFzdEFQSVx1MDAzYy9hXHUwMDNlXHUwMDNjL3VcdTAwM2UiLCJcdTAwM2N1XHUwMDNlXHUwMDNjYSB0YXJnZXQ9XCJfYmxhbmtcIiBocmVmPVwiaHR0cHM6Ly9hd3MuYW1hem9uLmNvbS93aGF0LWlzL3JldHJpZXZhbC1hdWdtZW50ZWQtZ2VuZXJhdGlvbi9cIlx1MDAzZVJBRyAoUmV0cmlldmFsLUF1Z21lbnRlZCBHZW5lcmF0aW9uKVx1MDAzYy9hXHUwMDNlXHUwMDNjL3VcdTAwM2UiLCJcdTAwM2N1XHUwMDNlXHUwMDNjYSB0YXJnZXQ9XCJfYmxhbmtcIiBocmVmPVwiaHR0cHM6Ly9kb2NzLnRyeWNocm9tYS5jb20vXCJcdTAwM2VDaHJvbWFcdTAwM2MvYVx1MDAzZVx1MDAzYy91XHUwMDNlIiwiXHUwMDNjdVx1MDAzZVx1MDAzY2EgdGFyZ2V0PVwiX2JsYW5rXCIgaHJlZj1cImh0dHBzOi8vb2xsYW1hLmFpL1wiXHUwMDNlT2xsYW1hXHUwMDNjL2FcdTAwM2VcdTAwM2MvdVx1MDAzZSJdLCJjb3N0IjoiJDAiLCJkZXNjcmlwdGlvbiI6IkxlYXJuIGhvdyBwcm9mZXNzaW9uYWwgRGV2T3BzIGVuZ2luZWVycyBwYWNrYWdlIGFwcGxpY2F0aW9ucyBmb3IgY29uc2lzdGVudCBkZXBsb3ltZW50ISIsImRpZmZpY3VsdHkiOiJQcmV0dHkgc3BpY3kiLCJmYWNlYm9va3RlbXBsYXRlIjoiSnVzdCBjb250YWluZXJpemVkIGFuIEFJIEFQSSB0b2RheS4uLiBlbmQgdG8gZW5kLlxuXG5JIHVzZWQgRG9ja2VyIHRvIHBhY2thZ2UgYSBGYXN0QVBJICsgT2xsYW1hIFJBRyBzZXJ2aWNlIGFuZCBwdXNoZWQgaXQgdG8gRG9ja2VyIEh1Yi5cblxuVGhlIHdvcmtmbG93IGlzIHNtb290aCBvbmNlIHRoZSBpbWFnZXMgYXJlIGJ1aWx0IGFuZCB0YWdnZWQuXG5cblRoYW5rcyB0byBAaXRzbmV4dHdvcmsgZm9yIHRoZSBwcm9qZWN0IGlkZWFcblxuSGVyZSdzIG15IGRvY3VtZW50YXRpb24gZm9yIHRoZSBzdGVwLWJ5LXN0ZXAgcHJvY2VzcyDwn5GHXG5cbiNEZXZPcHMgI0RvY2tlciAjQUkgI05leHRXb3JrXG4iLCJpY29uIjoiL3Byb2plY3RzL3N0YXRpYy9haS1kZXZvcHMtZG9ja2VyL2ljb24ucG5nIiwiaW5zdGFncmFtdGVtcGxhdGUiOiJJIGp1c3QgY29udGFpbmVyaXplZCBhIFJBRyBBUEkgdG9kYXkgd2l0aCBEb2NrZXIg8J+klvCfk6ZcblxuV2hhdCBJIGJ1aWx0Olxu4oCiIEZhc3RBUEkgKyBPbGxhbWEgQUkgQVBJXG7igKIgRG9ja2VyIGltYWdlIGZvciBwb3J0YWJpbGl0eVxu4oCiIFB1c2hlZCB0byBEb2NrZXIgSHViIGZvciBzaGFyaW5nXG5cblN3aXBlIHRocm91Z2ggdG8gc2VlIG15IHN0ZXAtYnktc3RlcCBkb2N1bWVudGF0aW9uIGFuZCBob3cgSSBzaGlwcGVkIGl0IVxuXG5CaWcgdGhhbmtzIHRvIEBpdHNuZXh0d29yayBmb3IgdGhlIHByb2plY3QgaWRlYVxuLlxuLlxuLlxuI0Rldk9wcyAjRG9ja2VyICNBSSAjTmV4dFdvcmtcbiIsIm5lZWRzIjpbIlBhcnQgMTogXHUwMDNjdVx1MDAzZVx1MDAzY2EgdGFyZ2V0PVwiX2JsYW5rXCIgaHJlZj1cImh0dHBzOi8vbGVhcm4ubmV4dHdvcmsub3JnL3Byb2plY3RzL2FpLWRldm9wcy1hcGlcIlx1MDAzZUJ1aWxkIGEgUkFHIEFQSSB3aXRoIEZhc3RBUElcdTAwM2MvYVx1MDAzZVx1MDAzYy91XHUwMDNlIiwiUGFydCAyOiBZb3UgYXJlIGhlcmUhIiwiUGFydCAzOiBcdTAwM2N1XHUwMDNlXHUwMDNjYSB0YXJnZXQ9XCJfYmxhbmtcIiBocmVmPVwiaHR0cHM6Ly9sZWFybi5uZXh0d29yay5vcmcvcHJvamVjdHMvYWktZGV2b3BzLWt1YmVybmV0ZXNcIlx1MDAzZURlcGxveSB0byBLdWJlcm5ldGVzXHUwMDNjL2FcdTAwM2VcdTAwM2MvdVx1MDAzZSIsIlBhcnQgNDogXHUwMDNjdVx1MDAzZVx1MDAzY2EgdGFyZ2V0PVwiX2JsYW5rXCIgaHJlZj1cImh0dHBzOi8vbGVhcm4ubmV4dHdvcmsub3JnL3Byb2plY3RzL2FpLWRldm9wcy1naXRodWJhY3Rpb25zXCJcdTAwM2VBdXRvbWF0ZSB3aXRoIEdpdEh1YiBBY3Rpb25zXHUwMDNjL2FcdTAwM2VcdTAwM2MvdVx1MDAzZSJdLCJvcmRlciI6IjguMiIsInBhcnQiOjIsInBsYW4iOiJmcmVlIiwic2hhcmV0ZW1wbGF0ZSI6IkRvY2tlciBydW5zIHByb2R1Y3Rpb24gYXQgR29vZ2xlLCBVYmVyLCBhbmQgQWlyYm5iLiBNb3N0IHRlYW1zIHN0aWxsIHN0cnVnZ2xlIHRvIHBhY2thZ2UgQUkgYXBwcyBmb3IgY29uc2lzdGVudCBkZXBsb3ltZW50cy5cblxuSSBqdXN0IGNvbnRhaW5lcml6ZWQgYSBSQUcgQVBJIHdpdGggRG9ja2VyIGFuZCBwdXNoZWQgaXQgdG8gRG9ja2VyIEh1Yi5cblxuQ2hlY2sgb3V0IG15IGRvY3VtZW50YXRpb24gZm9yIHRoZSBzdGVwLWJ5LXN0ZXAgcHJvY2VzcyDwn5GHXG5cbuKchSBCdWlsdCBhbiBBSS1wb3dlcmVkIEFQSSB3aXRoIEZhc3RBUEkgKyBPbGxhbWFcbuKchSBQYWNrYWdlZCBpdCBpbnRvIGEgcG9ydGFibGUgRG9ja2VyIGltYWdlXG7inIUgUHVzaGVkIGl0IHRvIERvY2tlciBIdWIgZm9yIGRpc3RyaWJ1dGlvblxuXG5BbnlvbmUgZWxzZSBzaGlwcGluZyBBSSB3b3JrbG9hZHMgd2l0aCBjb250YWluZXJzP1xuXG5IdWdlIHRoYW5rcyB0byBATmV4dFdvcmsgZm9yIHRoaXMgYXdlc29tZSBwcm9qZWN0IGd1aWRlLiBDaGVjayBvdXQgbXkgd29yayBhdCBOZXh0V29yazpcblxuI0Rldk9wcyAjRG9ja2VyICNBSSAjTmV4dFdvcmtcbiIsInRpbWUiOiI5MCBtaW4iLCJ0aXRsZSI6IkNvbnRhaW5lcml6ZSBhIFJBRyBBUEkgd2l0aCBEb2NrZXIiLCJ0cmFja3MiOlt7ImRlc2NyaXB0aW9uIjoiWW91J3JlIG9uIHlvdXIgb3duISBHcmVhdCBmb3IgdGhvc2Ugd2hvIHdhbnQgdG8gZGl2ZSBpbiBoZWFkZmlyc3QuIiwiaWQiOiJubyIsInRpdGxlIjoiT24gWW91ciBPd24ifSx7ImRlc2NyaXB0aW9uIjoiTGVhdmVzIG1vc3Qgb2YgaXQgdXAgdG8geW91LiBHcmVhdCBmb3IgdGhvc2UgbG9va2luZyBmb3IgYSBjaGFsbGVuZ2UuIiwiaWQiOiJsb3ciLCJ0aXRsZSI6IlNvbWUgR3VpZGFuY2UifSx7ImRlc2NyaXB0aW9uIjoiR2l2ZXMgc3RlcC1ieS1zdGVwIGluc3RydWN0aW9ucyBmb3IgZXZlcnkgcGFydC4gR3JlYXQgZm9yIGJlZ2lubmVycyEiLCJpZCI6ImhpZ2giLCJ0aXRsZSI6IlN0ZXAtYnktU3RlcCBHdWlkYW5jZSJ9XSwidHdpdHRlcnRlbXBsYXRlIjoiQ29udGFpbmVycyB0dXJuIFwid29ya3Mgb24gbXkgbWFjaGluZVwiIGludG8gXCJ3b3JrcyBldmVyeXdoZXJlLlwiXG5cbkkganVzdCBjb250YWluZXJpemVkIGEgUkFHIEFQSSB3aXRoIERvY2tlciBhbmQgcHVzaGVkIGl0IHRvIERvY2tlciBIdWIgdG9kYXkuXG5cbm15IHN0ZXAtYnktc3RlcCBwcm9jZXNzIGhlcmUg8J+RhyBcblxuI0Rldk9wcyAjRG9ja2VyICNBSSAjTmV4dFdvcmtcblxuVGhhbmtzIEBpdHNuZXh0d29yayFcbiIsInZpc2liaWxpdHkiOiJwdWJsaWMifSwic3RhdHVzIjoiSU5DT01QTEVURSIsInZhcmlhYmxlcyI6W3sibmFtZSI6IllPVVJfVVNFUk5BTUUifV19fQ==";
+      window.project = "{\"completedBy\":[\"https://lh3.googleusercontent.com/a/ACg8ocI_rTkQ1A6mL7Dd7GM7-SGZYgpoo5DLcufbZKc6UtT05kECXjED=s96-c\",\"https://lh3.googleusercontent.com/a/ACg8ocI0-9kplyFC0R_mmHt7O241dLmQo0EFRGIdLHE5A5A1ZKW7Qjr6=s96-c\",\"https://s.gravatar.com/avatar/fc42af4914ffb5983bf695bae74fcf96?s=480\\u0026r=pg\\u0026d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fve.png\",\"https://lh3.googleusercontent.com/a/ACg8ocK2FtaCkfp1T6yICCUQ4o45Mpmq_6AY3mbd2lFK2GXRIuj9bg=s96-c\",\"https://lh3.googleusercontent.com/a/ACg8ocJ-I1yDdLEwMnzM25-7HLPgP22JwlmRltW3_DJhKnsjwpBlKvAj=s96-c\",\"https://lh3.googleusercontent.com/a/ACg8ocJ3nh57Uo7RI4ex_EetmeBfKJ8Emsm24zINmFx4hn_GJr1Ks24p=s96-c\",\"https://s.gravatar.com/avatar/f9c450717b36f33068af0ae715407a9d?s=480\\u0026r=pg\\u0026d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fsa.png\",\"https://lh3.googleusercontent.com/a/ACg8ocIJi-uKJjfe95F0dQsouTllb7cPUZVzYm1CXr_90DaqjGcM_7pU=s96-c\",\"https://lh3.googleusercontent.com/a/ACg8ocIgAQYCjblm6-uI-OvRCCFgYAb1y6gBO2Qlo-KtENvPTu3HzA=s96-c\",\"https://s.gravatar.com/avatar/165e9d129394aca8d70e019c39b48b16?s=480\\u0026r=pg\\u0026d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Ffa.png\"],\"completions\":81,\"hasUpdates\":false,\"id\":\"ai-devops-docker\",\"locked\":true,\"metadata\":{\"category\":\"DevOps x AI\",\"concepts\":[\"AI\",\"\\u003cu\\u003e\\u003ca target=\\\"_blank\\\" href=\\\"https://docs.docker.com/\\\"\\u003eDocker\\u003c/a\\u003e\\u003c/u\\u003e\",\"\\u003cu\\u003e\\u003ca target=\\\"_blank\\\" href=\\\"https://hub.docker.com/\\\"\\u003eDocker Hub\\u003c/a\\u003e\\u003c/u\\u003e\",\"\\u003cu\\u003e\\u003ca target=\\\"_blank\\\" href=\\\"https://fastapi.tiangolo.com/\\\"\\u003eFastAPI\\u003c/a\\u003e\\u003c/u\\u003e\",\"\\u003cu\\u003e\\u003ca target=\\\"_blank\\\" href=\\\"https://aws.amazon.com/what-is/retrieval-augmented-generation/\\\"\\u003eRAG (Retrieval-Augmented Generation)\\u003c/a\\u003e\\u003c/u\\u003e\",\"\\u003cu\\u003e\\u003ca target=\\\"_blank\\\" href=\\\"https://docs.trychroma.com/\\\"\\u003eChroma\\u003c/a\\u003e\\u003c/u\\u003e\",\"\\u003cu\\u003e\\u003ca target=\\\"_blank\\\" href=\\\"https://ollama.ai/\\\"\\u003eOllama\\u003c/a\\u003e\\u003c/u\\u003e\"],\"cost\":\"$0\",\"description\":\"Learn how professional DevOps engineers package applications for consistent deployment!\",\"difficulty\":\"Pretty spicy\",\"facebooktemplate\":\"Just containerized an AI API today... end to end.\\n\\nI used Docker to package a FastAPI + Ollama RAG service and pushed it to Docker Hub.\\n\\nThe workflow is smooth once the images are built and tagged.\\n\\nThanks to @itsnextwork for the project idea\\n\\nHere's my documentation for the step-by-step process 👇\\n\\n#DevOps #Docker #AI #NextWork\\n\",\"icon\":\"/projects/static/ai-devops-docker/icon.png\",\"instagramtemplate\":\"I just containerized a RAG API today with Docker 🤖📦\\n\\nWhat I built:\\n• FastAPI + Ollama AI API\\n• Docker image for portability\\n• Pushed to Docker Hub for sharing\\n\\nSwipe through to see my step-by-step documentation and how I shipped it!\\n\\nBig thanks to @itsnextwork for the project idea\\n.\\n.\\n.\\n#DevOps #Docker #AI #NextWork\\n\",\"needs\":[\"Part 1: \\u003cu\\u003e\\u003ca target=\\\"_blank\\\" href=\\\"https://learn.nextwork.org/projects/ai-devops-api\\\"\\u003eBuild a RAG API with FastAPI\\u003c/a\\u003e\\u003c/u\\u003e\",\"Part 2: You are here!\",\"Part 3: \\u003cu\\u003e\\u003ca target=\\\"_blank\\\" href=\\\"https://learn.nextwork.org/projects/ai-devops-kubernetes\\\"\\u003eDeploy to Kubernetes\\u003c/a\\u003e\\u003c/u\\u003e\",\"Part 4: \\u003cu\\u003e\\u003ca target=\\\"_blank\\\" href=\\\"https://learn.nextwork.org/projects/ai-devops-githubactions\\\"\\u003eAutomate with GitHub Actions\\u003c/a\\u003e\\u003c/u\\u003e\"],\"order\":\"8.2\",\"part\":2,\"plan\":\"free\",\"sharetemplate\":\"Docker runs production at Google, Uber, and Airbnb. Most teams still struggle to package AI apps for consistent deployments.\\n\\nI just containerized a RAG API with Docker and pushed it to Docker Hub.\\n\\nCheck out my documentation for the step-by-step process 👇\\n\\n✅ Built an AI-powered API with FastAPI + Ollama\\n✅ Packaged it into a portable Docker image\\n✅ Pushed it to Docker Hub for distribution\\n\\nAnyone else shipping AI workloads with containers?\\n\\nHuge thanks to @NextWork for this awesome project guide. Check out my work at NextWork:\\n\\n#DevOps #Docker #AI #NextWork\\n\",\"time\":\"90 min\",\"title\":\"Containerize a RAG API with Docker\",\"tracks\":[{\"description\":\"You're on your own! Great for those who want to dive in headfirst.\",\"id\":\"no\",\"title\":\"On Your Own\"},{\"description\":\"Leaves most of it up to you. Great for those looking for a challenge.\",\"id\":\"low\",\"title\":\"Some Guidance\"},{\"description\":\"Gives step-by-step instructions for every part. Great for beginners!\",\"id\":\"high\",\"title\":\"Step-by-Step Guidance\"}],\"twittertemplate\":\"Containers turn \\\"works on my machine\\\" into \\\"works everywhere.\\\"\\n\\nI just containerized a RAG API with Docker and pushed it to Docker Hub today.\\n\\nmy step-by-step process here 👇 \\n\\n#DevOps #Docker #AI #NextWork\\n\\nThanks @itsnextwork!\\n\",\"visibility\":\"public\"},\"status\":\"INCOMPLETE\",\"variables\":[{\"name\":\"YOUR_USERNAME\",\"value\":\"\"}]}";
+    </script>
+
+    
+    <script async="" src="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/149a6bc4cd616ff81bea862cf35e71eb.min.js" data-lazy="no" crossorigin="anonymous"></script>
+    <script>
+      window.sentryOnLoad = function () {
+        window.Sentry.init({
+          environment: "prod",
+        });
+      };
+    </script>
+    <script async="">
+      window.addEventListener("DOMContentLoaded", function () {
+        !(function (t, e) {
+          var o, n, p, r;
+          e.__SV ||
+            ((window.posthog = e),
+            (e._i = []),
+            (e.init = function (i, s, a) {
+              function g(t, e) {
+                var o = e.split(".");
+                2 == o.length && ((t = t[o[0]]), (e = o[1])),
+                  (t[e] = function () {
+                    t.push(
+                      [e].concat(Array.prototype.slice.call(arguments, 0))
+                    );
+                  });
+              }
+              ((p = t.createElement("script")).type = "text/javascript"),
+                (p.crossOrigin = "anonymous"),
+                (p.async = !0),
+                (p.src =
+                  s.api_host.replace(
+                    ".i.posthog.com",
+                    "-assets.i.posthog.com"
+                  ) + "/static/array.js"),
+                (r =
+                  t.getElementsByTagName("script")[0]).parentNode.insertBefore(
+                  p,
+                  r
+                );
+              var u = e;
+              for (
+                void 0 !== a ? (u = e[a] = []) : (a = "posthog"),
+                  u.people = u.people || [],
+                  u.toString = function (t) {
+                    var e = "posthog";
+                    return (
+                      "posthog" !== a && (e += "." + a),
+                      t || (e += " (stub)"),
+                      e
+                    );
+                  },
+                  u.people.toString = function () {
+                    return u.toString(1) + ".people (stub)";
+                  },
+                  o =
+                    "init Ie Ts Ms Ee Es Rs capture Ge calculateEventProperties Os register register_once register_for_session unregister unregister_for_session js getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Ds Fs createPersonProfile Ls Ps opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing Cs debug I As getPageViewId captureTraceFeedback captureTraceMetric".split(
+                      " "
+                    ),
+                  n = 0;
+                n < o.length;
+                n++
+              )
+                g(u, o[n]);
+              e._i.push([i, s, a]);
+            }),
+            (e.__SV = 1));
+        })(document, window.posthog || []);
+        window.posthog.init("phc_4MP1TVN8zO0ATelTlIkH8gy25NVh9BiMRqFNrLtO86k", {
+          api_host: "https://us.i.posthog.com",
+          defaults: "2025-05-24",
+          person_profiles: "always",
+        });
+      });
+    </script>
+
+    <script async="" src="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/google-analytics_analytics.js"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-P3ZJGC0XCG", {
+        linker: {
+          domains: [
+            "learn.nextwork.org",
+            "community.nextwork.org",
+            "www.nextwork.org",
+            "nextwork.org",
+          ],
+        },
+      });
+    </script>
+    
+
+    <div id="app"><div><nw-authmanager></nw-authmanager><nw-modal-provider></nw-modal-provider><nw-toast-manager></nw-toast-manager><div><div class="h-full w-full flex shrink-0 overflow-hidden"><div class="@container/left-panel top-0 left-0 fixed h-dvh flex shrink-0 gap-x-0.5 overflow-hidden bg-white" style="transform: translateX(-100%); width: 270px; z-index: 504;"><div class="absolute top-4 right-4 z-504 block sm:hidden"><nw-close-button size="md" theme="light"></nw-close-button></div><div class="relative h-full w-screen max-w-(--breakpoint-md) mx-auto flex flex-col bg-white"><div role="presentation" tabindex="0" class="relative h-full"><div class="h-full ml-6 @lg/left-panel:ml-10 flex flex-col flex-1"><div class="flex-1 flex flex-col items-start justify-center"><div style="will-change: transform, opacity; opacity: 1; transform: none;"><div class="text-left"><h2 class="text-xl @lg/left-panel:text-2xl">Welcome Trung!<br>How can I help you today?</h2><h2 class="text-xl @lg/left-panel:text-2xl"></h2></div></div></div><div class="mr-6 @lg/left-panel:mr-10"><div class="flex flex-col gap-2 max-w-xs w-full"><button class="self-stretch px-3 py-2 rounded-lg border border-tertiary inline-flex justify-between items-center overflow-hidden outline-none transition-all duration-300 hover:bg-gray-50/80 gap-x-1" tabindex="-1" title="Tell me about this project" style="opacity: 1; transform: none;"><p class="text-left text-leather text-xs @lg/left-panel:text-sm font-normal leading-none truncate">Tell me about this project</p><nw-icon class="text-brand-400 rotate-45" name="arrow-right" width="16" height="16"></nw-icon></button><button class="self-stretch px-3 py-2 rounded-lg border border-tertiary inline-flex justify-between items-center overflow-hidden outline-none transition-all duration-300 hover:bg-gray-50/80 gap-x-1" tabindex="-1" title="Quiz me on this project" style="opacity: 1; transform: none;"><p class="text-left text-leather text-xs @lg/left-panel:text-sm font-normal leading-none truncate">Quiz me on this project</p><nw-icon class="text-brand-400 rotate-45" name="arrow-right" width="16" height="16"></nw-icon></button><button class="self-stretch px-3 py-2 rounded-lg border border-tertiary inline-flex justify-between items-center overflow-hidden outline-none transition-all duration-300 hover:bg-gray-50/80 gap-x-1" tabindex="-1" title="My goal is..." style="opacity: 1; transform: none;"><p class="text-left text-leather text-xs @lg/left-panel:text-sm font-normal leading-none truncate">My goal is...</p><nw-icon class="text-brand-400 rotate-45" name="arrow-right" width="16" height="16"></nw-icon></button></div></div><div class="mr-6 @lg/left-panel:mr-10 py-4 relative"><div class="flex flex-col justify-end"><div class="relative border w-full rounded-lg px-5 py-4 transition-colors duration-300 ease-in-out tiptap-shared tiptap-input !break-anywhere bg-paper border-transparent"><div class="w-full min-h-6 max-h-96 overflow-y-auto text-base leading-normal text-primary outline-none !break-anywhere pr-4 @md/left-panel:pr-6 @lg/left-panel:pr-8"><div contenteditable="true" translate="no" class="tiptap ProseMirror prose prose-sm @lg/left-panel:prose-base tiptap-chat-input" tabindex="0"><p data-placeholder="Ask anything" class="is-empty is-editor-empty"><br class="ProseMirror-trailingBreak"></p></div></div></div><div class="flex flex-row justify-end h-6 px-2 py-1"></div><div style="opacity: 1;"><div class="flex flex-col @sm/left-panel:flex-row justify-between items-start @sm/left-panel:items-center space-x-2"><div class="flex flex-row gap-1"><nw-tooltip content="Attach images" placement="top"><nw-button icon-color="text-leather" type="icon" size="icon" icon="camera" icon-size="md"></nw-button></nw-tooltip><nw-tooltip content="Dictate" placement="top"><nw-button icon-color="text-leather" type="icon" size="icon" icon="microphone" icon-size="md" loading-size="sm"></nw-button></nw-tooltip></div><div class="w-fit"><div style="opacity: 1;"><a href="https://discord.gg/8A3mX3CDz5" target="_blank" class="text-xs text-brand-600 hover:text-brand-700 transition-colors underline truncate whitespace-normal" tabindex="-1">Still stuck? Get help from a human</a></div></div></div></div></div></div></div><input accept="image/png,.png,image/jpg,.jpg,image/jpeg,.jpeg,image/webp,.webp" multiple="" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: 0px -1px -1px 0px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;" tabindex="-1" type="file"></div></div><div class="ml-2"><div data-resize-handle="left" class="hidden sm:block absolute top-0 h-dvh z-505 w-2 cursor-col-resize group bg-transparent hover:cursor-col-resize right-0"><div class="h-full bg-secondary-alt w-0.5! group-hover:w-1! transition-[width] duration-300 hover:cursor-col-resize float-right"></div></div></div></div><div class="@container/main relative w-full h-dvh flex flex-col overflow-y-auto overflow-x-hidden" style="container-type: normal; pointer-events: none; margin-left: 0px; margin-right: 540px; opacity: 0;"><div class="bg-paper"><div class="bg-paper transition-all flex flex-row items-center py-3 px-6 top-0 left-0 right-0 z-20 shrink-0 h-10 gap-x-2 w-full peer space-x-4 sticky animate-slideDown opacity-100 opacity-100!"><div class="relative group cursor-pointer py-1.5 px-1.5 animate-fadeIn w-full border border-transparent hover:border-gray-300 rounded-[4px] transition-all active:border-success-400 focus:border-success-400"><div class="progress-bar w-full h-2 rounded-sm transition-all bg-success-400"><div class="h-full rounded-sm bg-success-400" style="width: 99.9991%;"></div></div><div class="bg-white border border-gray-200 py-3 px-4 rounded-lg space-y-3 animate-fadeInFast group-hover:block hidden z-50 max-w-xs w-full min-w-48 shadow-md top-6 absolute min-w-60 -translate-x-1/2 left-1/2"><div class="py-0.5 px-1.5 rounded-md gap-x-1.5 flex items-center border border-gray-300 w-fit"><div class="w-2 h-2 rounded-full bg-success-400"></div><p class="text-xs text-secondary">Complete</p></div><div><h2 class="font-bold text-lg text-primary">Containerize a RAG API with Docker</h2><p class="text-secondary text-xs">Learn how professional DevOps engineers package applications for consistent deployment!</p></div><div class="flex items-center gap-x-1 text-quaternary"><nw-icon name="file-question" width="12" height="12"></nw-icon><p class="text-xs">DevOps x AI</p></div></div></div></div><div></div><div id="project-layout" class="relative w-full mx-auto transition-opacity py-8" style="transition-duration: 0.3s;"><div></div><div><div class="p-4 mx-auto w-full flex my-0 py-16 flex-col items-center rounded-3xl" style="max-width: 643px;"><div class="flex w-full flex-col items-start justify-start space-y-2"><nw-badge color="gray-filled" with-indicator="" icon-size="{&quot;width&quot;:9,&quot;height&quot;:14}"><span class="text-secondary">Project</span></nw-badge><h1 class="flex content-center items-center pt-2 self-stretch text-4xl font-semibold">Containerize a RAG API with Docker</h1><p class="flex-1 m-0 text-secondary">Learn how professional DevOps engineers package applications for consistent deployment!</p><div class="flex items-center justify-between w-full"><div class="pt-2 flex items-center gap-x-2"><div class="flex items-center flex-wrap"><div class="flex -space-x-2"><nw-avatar img-url="https://lh3.googleusercontent.com/a/ACg8ocI_rTkQ1A6mL7Dd7GM7-SGZYgpoo5DLcufbZKc6UtT05kECXjED=s96-c" size="md" shape="circle"></nw-avatar><nw-avatar img-url="https://lh3.googleusercontent.com/a/ACg8ocI0-9kplyFC0R_mmHt7O241dLmQo0EFRGIdLHE5A5A1ZKW7Qjr6=s96-c" size="md" shape="circle"></nw-avatar><nw-avatar img-url="https://s.gravatar.com/avatar/fc42af4914ffb5983bf695bae74fcf96?s=480&amp;r=pg&amp;d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fve.png" size="md" shape="circle"></nw-avatar><nw-avatar img-url="https://lh3.googleusercontent.com/a/ACg8ocK2FtaCkfp1T6yICCUQ4o45Mpmq_6AY3mbd2lFK2GXRIuj9bg=s96-c" size="md" shape="circle"></nw-avatar><nw-avatar img-url="https://lh3.googleusercontent.com/a/ACg8ocJ-I1yDdLEwMnzM25-7HLPgP22JwlmRltW3_DJhKnsjwpBlKvAj=s96-c" size="md" shape="circle"></nw-avatar><div class="mx-1!"><nw-tooltip placement="top" content="Copied! Send to a friend " trigger="click" show-duration="2000"><nw-tooltip content="Copy invite link for a friend" placement="top"><button class="transition-all h-9 w-9 border rounded-full border-dashed shrink-0 bg-white hover:bg-gray-50/75 active:bg-gray-50 active:border-gray-300 justify-center items-center inline-flex overflow-hidden"><nw-icon name="plus" width="16" height="16" class="text-tertiary"></nw-icon></button></nw-tooltip></nw-tooltip></div></div><span class="ml-2 my-1 text-sm text-tertiary">80+ completed</span></div></div><div><nw-tooltip content="Restart project" placement="top"><nw-button size="icon" type="icon" icon="refresh-clockwise" icon-size="sm" icon-color="text-primary" icon-border="" class-names="bg-white"></nw-button></nw-tooltip></div></div></div><div class="flex py-10 mt-10 flex-col items-start gap-8 self-stretch border-y border-secondary"><div class="flex flex-wrap items-start gap-y-4 gap-x-12"><div class="flex items-center gap-3"><div class="flex p-2 h-[32px] w-[32px] justify-center items-center border border-gray-300 bg-white rounded-md shadow-xs"><nw-icon name="terminal-square"></nw-icon></div><div class="font-semibold text-sm">DIFFICULTY</div><div class="text-sm">Pretty spicy</div></div><div class="flex items-center gap-3"><div class="flex p-2 h-[32px] w-[32px] justify-center items-center border border-gray-300 bg-white rounded-md shadow-xs"><nw-icon name="hourglass"></nw-icon></div><div class="font-semibold text-sm">TIME</div><div class="text-sm">90 min</div></div></div><div class="flex w-full justify-between items-start flex-row"><div class="flex items-center gap-3"><div class="flex p-2 h-[32px] w-[32px] justify-center items-center border border-gray-300 bg-white rounded-md shadow-xs"><nw-icon name="tool"></nw-icon></div><div class="font-semibold text-sm">RELATED PROJECTS</div><div class="text-sm"></div></div><div class="w-[60%] my-0"><ul class="list-outside"><li class="text-secondary text-sm list-disc p-0">Part 1: <u><a target="_blank" href="https://learn.nextwork.org/projects/ai-devops-api">Build a RAG API with FastAPI</a></u></li><li class="text-secondary text-sm list-disc p-0">Part 2: You are here!</li><li class="text-secondary text-sm list-disc p-0">Part 3: <u><a target="_blank" href="https://learn.nextwork.org/projects/ai-devops-kubernetes">Deploy to Kubernetes</a></u></li><li class="text-secondary text-sm list-disc p-0">Part 4: <u><a target="_blank" href="https://learn.nextwork.org/projects/ai-devops-githubactions">Automate with GitHub Actions</a></u></li></ul></div></div><div class="flex w-full justify-between items-start flex-row"><div class="flex items-center gap-3"><div class="flex p-2 h-[32px] w-[32px] justify-center items-center border border-gray-300 bg-white rounded-md shadow-xs"><nw-icon name="lightbulb"></nw-icon></div><div class="font-semibold text-sm">KEY CONCEPTS</div><div class="text-sm"></div></div><div class="w-[60%] my-0"><ul class="list-outside"><li class="text-secondary text-sm list-disc p-0">AI</li><li class="text-secondary text-sm list-disc p-0"><u><a target="_blank" href="https://docs.docker.com/">Docker</a></u></li><li class="text-secondary text-sm list-disc p-0"><u><a target="_blank" href="https://hub.docker.com/">Docker Hub</a></u></li><li class="text-secondary text-sm list-disc p-0"><u><a target="_blank" href="https://fastapi.tiangolo.com/">FastAPI</a></u></li><li class="text-secondary text-sm list-disc p-0"><u><a target="_blank" href="https://aws.amazon.com/what-is/retrieval-augmented-generation/">RAG (Retrieval-Augmented Generation)</a></u></li><li class="text-secondary text-sm list-disc p-0"><u><a target="_blank" href="https://docs.trychroma.com/">Chroma</a></u></li><li class="text-secondary text-sm list-disc p-0"><u><a target="_blank" href="https://ollama.ai/">Ollama</a></u></li></ul></div></div></div><div class="w-full mt-8"><nw-editor instance-id="intro" content="&lt;h2&gt;⚡️ 30 second Summary&lt;/h2&gt;
+
+&lt;p&gt;How do big companies like Netflix, Uber, and Spotify make sure their apps always work well and the same way, whether they're running on a laptop, a company server, or in the cloud?&lt;/p&gt;
+
+&lt;p&gt;They use modern &lt;nw-concept&gt;DevOps&lt;/nw-concept&gt; tools. This includes using &lt;nw-concept&gt;containers&lt;/nw-concept&gt; to bundle up their code and &lt;nw-concept&gt;dependencies&lt;/nw-concept&gt; so applications run identically anywhere - your laptop, a teammate's computer, or a production server.&lt;/p&gt;
+
+&lt;h3&gt;What you'll build&lt;/h3&gt;
+
+&lt;p&gt;Welcome to &lt;strong&gt;Project 2&lt;/strong&gt; of a 4-part &lt;strong&gt;DevOps × AI&lt;/strong&gt; series! In this project, you'll containerize a &lt;nw-concept&gt;RAG API&lt;/nw-concept&gt; with &lt;nw-concept&gt;Docker&lt;/nw-concept&gt;.&lt;/p&gt;
+
+&lt;p&gt;This project builds on &lt;a href=&quot;https://learn.nextwork.org/projects/ai-devops-api&quot;&gt;Project #1 of this series: Build a RAG API with FastAPI&lt;/a&gt;, where you built a RAG API using &lt;nw-concept&gt;FastAPI&lt;/nw-concept&gt;, &lt;nw-concept&gt;Chroma&lt;/nw-concept&gt;, and &lt;nw-concept&gt;Ollama&lt;/nw-concept&gt;. After this project, you can continue with &lt;a href=&quot;https://learn.nextwork.org/projects/ai-devops-kubernetes&quot;&gt;Project #3: Deploy to Kubernetes&lt;/a&gt; and &lt;a href=&quot;https://learn.nextwork.org/projects/ai-devops-githubactions&quot;&gt;Project #4: Automate Testing with GitHub Actions&lt;/a&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;🙋‍♀️ I haven't done Project #1 yet&lt;/strong&gt;&lt;br/&gt;
+No worries! You can either complete &lt;a href=&quot;https://learn.nextwork.org/projects/ai-devops-api&quot;&gt;Project #1&lt;/a&gt; first (which we highly recommend!), or we'll guide you through a quick setup at the start of this project to catch up. Either way works.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;By the end, you'll have:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;🐳 A &lt;strong&gt;Docker image&lt;/strong&gt; of your RAG API&lt;/li&gt;
+&lt;li&gt;💎 Your image shared to the world through &lt;strong&gt;Docker Hub&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/architecture-diagram-new.png&quot; alt=&quot;Architecture showing Docker containers&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;This is the same workflow many professional DevOps engineers use to ship AI workloads into production at scale 🛳️ The best part? Docker runs locally on your computer with &lt;strong&gt;no cloud costs or fees.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;You might be wondering...&lt;br/&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;🙋‍♀️ Why Docker?&lt;/strong&gt;&lt;br/&gt;
+You could build the perfect AI API that works flawlessly on your laptop, but when you deploy it to a server, it could still break. &lt;strong&gt;Docker solves this&lt;/strong&gt; by packaging your AI API and everything it needs into a &lt;nw-concept&gt;container&lt;/nw-concept&gt; that runs identically anywhere - your laptop, a teammate's computer, or a production server.&lt;/p&gt;
+
+&lt;p&gt;&lt;br/&gt;
+&lt;strong&gt;🙋‍♀️ I don't have experience in Docker!&lt;/strong&gt;&lt;br/&gt;
+You don't need any prior experience in DevOps or Docker to do this project. We'll explain all the concepts along the way, and you can always &lt;nw-content-link type=&quot;ask&quot; class=&quot;internal-link&quot; prefill=&quot;I'm looking at the DevOps × AI Docker project. Can you help me understand if this project is right for me based on my skill level and what I want to learn?&quot;&gt;ask questions as they come up.&lt;/nw-content-link&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Want a complete demo of how to do this project, from start to finish? Check out our 🎬 &lt;a href=&quot;https://youtu.be/ctjTle9VeyA&quot;&gt;walkthrough with Natasha&lt;/a&gt; 🎬&lt;/p&gt;
+&lt;div data-youtube-video=&quot;&quot;&gt;
+    &lt;iframe src=&quot;https://www.youtube.com/embed/ctjTle9VeyA&quot; width=&quot;680&quot; height=&quot;400&quot;&gt;&lt;/iframe&gt;
+&lt;/div&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;h2&gt;Choose Your Mode...&lt;/h2&gt;
+
+&lt;p&gt;We know everyone learns differently. That's why we offer three ways to complete this project. Pick the one that matches your style:&lt;/p&gt;
+
+&lt;p&gt;Don't know which track is best for you? &lt;nw-content-link type=&quot;ask&quot; class=&quot;internal-link&quot; prefill=&quot;I'm trying to decide between doing this project with Step-by-Step Guidance, Some Guidance or On Your Own. Can you help me understand which one would be best for my learning style and experience level?&quot;&gt;Click here for a few tips!&lt;/nw-content-link&gt;&lt;/p&gt;
+"></nw-editor></div><div class="w-full"><div class="w-full"><div class="px-12 max-w-[880px]"><nw-divider padding="sm" casing="normal-case"><div class="flex overflow-hidden justify-start items-start rounded-lg border divide-x text-3"><div><nw-tooltip placement="bottom" content="You're on your own! Great for those who want to dive in headfirst."><button class="flex min-h-10 py-1 px-4 justify-center items-center text-primary  gap-2 wrap-break-word hover:bg-secondary-hover transition-colors active:bg-secondary-alt bg-primary"><div><img width="24" height="24" alt="On Your Own" src="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/no-touch.png"></div><span>On Your Own</span></button></nw-tooltip></div><div><nw-tooltip placement="bottom" content="Leaves most of it up to you. Great for those looking for a challenge."><button class="flex min-h-10 py-1 px-4 justify-center items-center text-primary  gap-2 wrap-break-word hover:bg-secondary-hover transition-colors active:bg-secondary-alt bg-brand-50"><div><img width="24" height="24" alt="Some Guidance" src="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/low-touch.png"></div><span>Some Guidance</span></button></nw-tooltip></div><div><nw-tooltip placement="bottom" content="Gives step-by-step instructions for every part. Great for beginners!"><button class="flex min-h-10 py-1 px-4 justify-center items-center text-primary  gap-2 wrap-break-word hover:bg-secondary-hover transition-colors active:bg-secondary-alt bg-primary"><div><img width="24" height="24" alt="Step-by-Step Guidance" src="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/high-touch.png"></div><span>Step-by-Step Guidance</span></button></nw-tooltip></div></div></nw-divider></div><nw-editor instance-id="content" content="&lt;h3&gt;Some Guidance&lt;/h3&gt;
+
+&lt;p&gt;Ooooo, a challenger!&lt;/p&gt;
+
+&lt;p&gt;Welcome to the &lt;strong&gt;Some Guidance&lt;/strong&gt; version of this project. Challenge yourself and see how far you can go without looking for detailed steps.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;📣 If you're EVER stuck - &lt;a href=&quot;https://discord.gg/gexhP97ySu&quot;&gt;ask the NextWork community&lt;/a&gt;. Students like you are already asking questions about this project.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;nw-section stepid=&quot;before-we-start&quot; name=&quot;👀 Step #0&quot; heading=&quot;Before we start Step #1...&quot;&gt;&lt;nw-validation-box id=&quot;box-0&quot;&gt;&lt;nw-validation-text id=&quot;a1b2c3d4&quot; character-limit=&quot;250&quot; placeholder=&quot;In this project, I will demonstrate... I'm doing this project to learn...&quot; title=&quot;✍️ What are we here to do today?&quot;&gt;&lt;/nw-validation-text&gt;&lt;/nw-validation-box&gt;&lt;/nw-section&gt;&lt;nw-section stepid=&quot;step-1&quot; name=&quot;🛠️ Step #1&quot; heading=&quot;Set Up Your API&quot;&gt;&lt;p&gt;Time to set up your RAG API before containerizing it in Docker!&lt;/p&gt;
+
+&lt;p&gt;If you've done &lt;a href=&quot;https://learn.nextwork.org/projects/ai-devops-api&quot;&gt;Project #1: Build a RAG API with FastAPI&lt;/a&gt;, this will be quick. If not, we'll set up each component as we go.&lt;/p&gt;
+
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;In this step, you're going to:&lt;/strong&gt;&lt;/p&gt;
+&lt;nw-checkbox checked=&quot;false&quot;&gt;&lt;p&gt;Set up your RAG API's code and dependencies&lt;/p&gt;
+&lt;/nw-checkbox&gt;&lt;nw-checkbox checked=&quot;false&quot;&gt;&lt;p&gt;Activate your virtual environment&lt;/p&gt;
+&lt;/nw-checkbox&gt;&lt;nw-checkbox checked=&quot;false&quot;&gt;&lt;p&gt;Verify Ollama is running&lt;/p&gt;
+&lt;/nw-checkbox&gt;&lt;nw-validation-box id=&quot;box-1&quot;&gt;&lt;nw-validation-text id=&quot;e5f6g7h8&quot; character-limit=&quot;250&quot; placeholder=&quot;In this step, I'm setting up... The RAG API is... &quot; title=&quot;✍️ What are we doing in this step?&quot;&gt;&lt;/nw-validation-text&gt;&lt;/nw-validation-box&gt;&lt;p&gt;&lt;strong&gt;Open Project in Cursor&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Open &lt;strong&gt;Cursor&lt;/strong&gt; and select your project folder &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;nextwork-rag-api&lt;/nw-code-block&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;💡 &lt;strong&gt;Don't have Cursor?&lt;/strong&gt;&lt;br/&gt;
+Download from &lt;a href=&quot;https://cursor.com/&quot;&gt;cursor.com&lt;/a&gt; or use VS Code or any IDE you prefer.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Check Your Required Files&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;You should have these files in your &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;nextwork-rag-api&lt;/nw-code-block&gt; folder:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;app.py&lt;/nw-code-block&gt; - your FastAPI application&lt;/li&gt;
+&lt;li&gt;&lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;embed.py&lt;/nw-code-block&gt; - the script that creates embeddings&lt;/li&gt;
+&lt;li&gt;&lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;k8s.txt&lt;/nw-code-block&gt; - your knowledge base document&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-3.webp&quot; alt=&quot;Cursor file explorer showing app.py, embed.py, and k8s.txt files&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+&lt;nw-tabs id=&quot;files-check&quot; active=&quot;have-files&quot;&gt;&lt;nw-tab id=&quot;have-files&quot; heading=&quot;✅ Yes, I have all the files&quot;&gt;&lt;p&gt;Great! Let's check your Python dependencies next.&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;no-files&quot; heading=&quot;❌ No, I'm missing some files&quot;&gt;&lt;p&gt;Create the missing files:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;k8s.txt:&lt;/strong&gt;&lt;/p&gt;
+&lt;nw-code-block language=&quot;text&quot; inline=&quot;false&quot;&gt;Kubernetes is a container orchestration platform used to manage containers at scale.
+&lt;/nw-code-block&gt;
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-api/cat-k8s-file.webp&quot; alt=&quot;Cursor showing k8s.txt file with the Kubernetes description.&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;embed.py:&lt;/strong&gt;&lt;/p&gt;
+&lt;nw-code-block language=&quot;python&quot; inline=&quot;false&quot;&gt;import chromadb
+
+client = chromadb.PersistentClient(path=&amp;#34;./db&amp;#34;)
+collection = client.get_or_create_collection(&amp;#34;docs&amp;#34;)
+
+with open(&amp;#34;k8s.txt&amp;#34;, &amp;#34;r&amp;#34;) as f:
+    text = f.read()
+
+collection.add(documents=[text], ids=[&amp;#34;k8s&amp;#34;])
+
+print(&amp;#34;Embedding stored in Chroma&amp;#34;)
+&lt;/nw-code-block&gt;
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-api/embed-py-created.webp&quot; alt=&quot;Cursor showing embed.py with Chroma code&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;app.py:&lt;/strong&gt;&lt;/p&gt;
+&lt;nw-code-block language=&quot;python&quot; inline=&quot;false&quot;&gt;from fastapi import FastAPI
+import chromadb
+import ollama
+
+app = FastAPI()
+chroma = chromadb.PersistentClient(path=&amp;#34;./db&amp;#34;)
+collection = chroma.get_or_create_collection(&amp;#34;docs&amp;#34;)
+
+@app.post(&amp;#34;/query&amp;#34;)
+def query(q: str):
+    results = collection.query(query_texts=[q], n_results=1)
+    context = results[&amp;#34;documents&amp;#34;][0][0] if results[&amp;#34;documents&amp;#34;] else &amp;#34;&amp;#34;
+
+    answer = ollama.generate(
+        model=&amp;#34;tinyllama&amp;#34;,
+        prompt=f&amp;#34;Context:\n{context}\n\nQuestion: {q}\n\nAnswer clearly and concisely:&amp;#34;
+    )
+
+    return {&amp;#34;answer&amp;#34;: answer[&amp;#34;response&amp;#34;]}
+&lt;/nw-code-block&gt;
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-api/app-py-created.webp&quot; alt=&quot;Text editor showing app.py with FastAPI code&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Set Up Virtual Environment&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;💡 &lt;strong&gt;Why a virtual environment?&lt;/strong&gt;&lt;br/&gt;
+Keeps your project's Python packages separate from other projects, preventing version conflicts.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Check if you have a &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;venv/&lt;/nw-code-block&gt; folder:&lt;/p&gt;
+
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-4.webp&quot; alt=&quot;Cursor file explorer showing venv folder in project directory&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+&lt;nw-tabs id=&quot;venv-check&quot; active=&quot;have-venv-folder&quot;&gt;&lt;nw-tab id=&quot;have-venv-folder&quot; heading=&quot;✅ Yes, I have the venv folder&quot;&gt;&lt;p&gt;Activate it:&lt;/p&gt;
+&lt;nw-tabs id=&quot;activate-venv-os&quot; active=&quot;mac-activate&quot;&gt;&lt;nw-tab id=&quot;mac-activate&quot; heading=&quot;🍎 macOS&quot;&gt;&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;source venv/bin/activate
+&lt;/nw-code-block&gt;&lt;p&gt;You should see &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;(venv)&lt;/nw-code-block&gt; appear at the beginning of your terminal prompt.&lt;/p&gt;
+
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-5.webp&quot; alt=&quot;Terminal showing activated virtual environment with (venv) prefix&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;windows-activate&quot; heading=&quot;🖼️ Windows&quot;&gt;&lt;nw-code-block language=&quot;powershell&quot; inline=&quot;false&quot;&gt;venv\Scripts\activate
+&lt;/nw-code-block&gt;&lt;p&gt;You should see &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;(venv)&lt;/nw-code-block&gt; appear at the beginning of your PowerShell prompt.&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;/nw-tab&gt;&lt;nw-tab id=&quot;no-venv-folder&quot; heading=&quot;❌ No, I don't have the venv folder&quot;&gt;&lt;p&gt;Create and activate it:&lt;/p&gt;
+&lt;nw-tabs id=&quot;setup-venv-os&quot; active=&quot;mac-setup-venv&quot;&gt;&lt;nw-tab id=&quot;mac-setup-venv&quot; heading=&quot;🍎 macOS&quot;&gt;&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;python3 -m venv venv
+source venv/bin/activate
+&lt;/nw-code-block&gt;&lt;p&gt;You should see &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;(venv)&lt;/nw-code-block&gt; appear at the beginning of your terminal prompt.&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;windows-setup-venv&quot; heading=&quot;🖼️ Windows&quot;&gt;&lt;nw-code-block language=&quot;powershell&quot; inline=&quot;false&quot;&gt;python -m venv venv
+venv\Scripts\activate
+&lt;/nw-code-block&gt;&lt;p&gt;You should see &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;(venv)&lt;/nw-code-block&gt; appear at the beginning of your PowerShell prompt.&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Check Python Dependencies&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Verify the required packages are installed:&lt;/p&gt;
+&lt;nw-tabs id=&quot;verify-deps-os&quot; active=&quot;mac-verify-deps&quot;&gt;&lt;nw-tab id=&quot;mac-verify-deps&quot; heading=&quot;🍎 macOS&quot;&gt;&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;pip list | grep -E &amp;#34;fastapi|uvicorn|chromadb|ollama&amp;#34;
+&lt;/nw-code-block&gt;&lt;p&gt;You should see all four packages listed.&lt;/p&gt;
+
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-6.webp&quot; alt=&quot;Terminal showing pip list output with fastapi, uvicorn, chromadb, and ollama packages&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;💡 &lt;strong&gt;Missing packages?&lt;/strong&gt;&lt;br/&gt;
+Install them with:&lt;/p&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;pip install fastapi uvicorn chromadb ollama
+&lt;/nw-code-block&gt;&lt;/blockquote&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;windows-verify-deps&quot; heading=&quot;🖼️ Windows&quot;&gt;&lt;nw-code-block language=&quot;powershell&quot; inline=&quot;false&quot;&gt;pip list | Select-String -Pattern &amp;#34;fastapi|uvicorn|chromadb|ollama&amp;#34;
+&lt;/nw-code-block&gt;&lt;p&gt;You should see all four packages listed.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;💡 &lt;strong&gt;Missing packages?&lt;/strong&gt;&lt;br/&gt;
+Install them with:&lt;/p&gt;
+&lt;nw-code-block language=&quot;powershell&quot; inline=&quot;false&quot;&gt;pip install fastapi uvicorn chromadb ollama
+&lt;/nw-code-block&gt;&lt;/blockquote&gt;
+&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;nw-validation-box id=&quot;box-5&quot;&gt;&lt;nw-validation-upload id=&quot;c9d0e1f2&quot; description=&quot;Take a screenshot of your terminal showing showing fastapi, uvicorn, chromadb, and ollama installed.&quot; title=&quot;📸 Upload a screenshot&quot;&gt;&lt;/nw-validation-upload&gt;&lt;nw-validation-text id=&quot;g3h4i5j6&quot; character-limit=&quot;250&quot; placeholder=&quot;The packages I installed are... FastAPI is used for... Chroma is used for... Uvicorn is used for... Ollama is used for...&quot; title=&quot;✍️ What packages did you install and what is each used for?&quot;&gt;&lt;/nw-validation-text&gt;&lt;/nw-validation-box&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Verify Database&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Check that the &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;db/&lt;/nw-code-block&gt; folder exists with Chroma database files inside.&lt;/p&gt;
+
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-7.webp&quot; alt=&quot;Cursor file explorer showing db folder with Chroma database files&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+&lt;nw-tabs id=&quot;database-check&quot; active=&quot;have-database&quot;&gt;&lt;nw-tab id=&quot;have-database&quot; heading=&quot;✅ Yes, I have the database folder&quot;&gt;&lt;p&gt;Perfect!&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;no-database&quot; heading=&quot;❌ No, my database folder is missing or empty&quot;&gt;&lt;p&gt;Create it by running the embeddings script:&lt;/p&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;python embed.py
+&lt;/nw-code-block&gt;
+&lt;p&gt;You should see &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;Embedding stored in Chroma&lt;/nw-code-block&gt; and a &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;db/&lt;/nw-code-block&gt; folder appear.&lt;/p&gt;
+
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/new-4.webp&quot; alt=&quot;Terminal showing embed.py execution with success message and db folder created in file explorer&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Run Ollama&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;💡 &lt;strong&gt;Why Ollama?&lt;/strong&gt;&lt;br/&gt;
+Ollama runs the AI language models locally. Your API needs it to generate responses.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Check if Ollama is running:&lt;/p&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;curl http://localhost:11434
+&lt;/nw-code-block&gt;&lt;nw-tabs id=&quot;ollama-check-state&quot; active=&quot;running&quot;&gt;&lt;nw-tab id=&quot;running&quot; heading=&quot;✅ I see 'Ollama is running'&quot;&gt;&lt;p&gt;Awesome!&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;not-running&quot; heading=&quot;❌ I see 'Failed to connect'&quot;&gt;&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-16.webp&quot; alt=&quot;Terminal showing 'Failed to connect' error when checking Ollama connection&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;Start Ollama:&lt;/p&gt;
+&lt;nw-tabs id=&quot;start-ollama-os&quot; active=&quot;mac&quot;&gt;&lt;nw-tab id=&quot;mac&quot; heading=&quot;🍎 macOS&quot;&gt;&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;open -a &amp;#34;Ollama&amp;#34;
+&lt;/nw-code-block&gt;&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-18.webp&quot; alt=&quot;Terminal showing open -a Ollama command execution&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;You should see the Ollama icon appear in your menu bar.&lt;/p&gt;
+
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-19.webp&quot; alt=&quot;macOS menu bar showing Ollama icon&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;windows&quot; heading=&quot;🖼️ Windows&quot;&gt;&lt;nw-code-block language=&quot;powershell&quot; inline=&quot;false&quot;&gt;ollama serve
+&lt;/nw-code-block&gt;&lt;p&gt;Keep this window open - Ollama must stay running!&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;p&gt;Wait 5-10 seconds, then test again:&lt;/p&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;curl http://localhost:11434
+&lt;/nw-code-block&gt;
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-20.webp&quot; alt=&quot;Terminal showing 'Ollama is running' message from curl command&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Run the tinyllama model&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Check if tinyllama is available:&lt;/p&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;ollama list
+&lt;/nw-code-block&gt;&lt;nw-tabs id=&quot;tinyllama-check-state&quot; active=&quot;have-model&quot;&gt;&lt;nw-tab id=&quot;have-model&quot; heading=&quot;✅ I see tinyllama in the list&quot;&gt;&lt;p&gt;Perfect!&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;no-model&quot; heading=&quot;❌ I don't see tinyllama&quot;&gt;&lt;p&gt;Download it (~600MB):&lt;/p&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;ollama pull tinyllama
+&lt;/nw-code-block&gt;
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/new-11.webp&quot; alt=&quot;Terminal showing ollama pull tinyllama command with download progress&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;Wait for &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;success&lt;/nw-code-block&gt; to appear.&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;p&gt;You should see &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;tinyllama&lt;/nw-code-block&gt; in the output:&lt;/p&gt;
+
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-9.webp&quot; alt=&quot;Terminal showing ollama list output with tinyllama model listed&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Test Your API&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Start your API:&lt;/p&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;uvicorn app:app --host 127.0.0.1 --port 8000
+&lt;/nw-code-block&gt;
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-10.webp&quot; alt=&quot;Terminal showing uvicorn app:app command running with API server started&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;Keep this terminal open. Open a new terminal and test:&lt;/p&gt;
+&lt;nw-tabs id=&quot;test-api-os&quot; active=&quot;mac-test&quot;&gt;&lt;nw-tab id=&quot;mac-test&quot; heading=&quot;🍎 macOS&quot;&gt;&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;curl -X POST &amp;#34;http://127.0.0.1:8000/query&amp;#34; -G --data-urlencode &amp;#34;q=What is Kubernetes?&amp;#34;
+&lt;/nw-code-block&gt;&lt;/nw-tab&gt;&lt;nw-tab id=&quot;windows-test&quot; heading=&quot;🖼️ Windows&quot;&gt;&lt;nw-code-block language=&quot;powershell&quot; inline=&quot;false&quot;&gt;Invoke-WebRequest -Uri &amp;#34;http://127.0.0.1:8000/query?q=What%20is%20Kubernetes%3F&amp;#34; -Method POST
+&lt;/nw-code-block&gt;&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;nw-tabs id=&quot;api-test-state&quot; active=&quot;success&quot;&gt;&lt;nw-tab id=&quot;success&quot; heading=&quot;✅ I got a JSON response&quot;&gt;&lt;p&gt;Perfect! You should see:&lt;/p&gt;
+&lt;nw-code-block language=&quot;json&quot; inline=&quot;false&quot;&gt;{&amp;#34;answer&amp;#34;:&amp;#34;Kubernetes is a container orchestration platform that helps manage containers at scale...&amp;#34;}
+&lt;/nw-code-block&gt;
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-13.webp&quot; alt=&quot;Terminal showing successful curl request with JSON response from RAG API&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;Your API is working correctly!&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;error&quot; heading=&quot;❌ I got an error or no response&quot;&gt;&lt;p&gt;Common issues:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Connection refused&lt;/strong&gt;: Make sure your API is still running in the first terminal.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ollama error&lt;/strong&gt;: Check Ollama is running: &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;curl http://localhost:11434&lt;/nw-code-block&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Timeout&lt;/strong&gt;: First request might be slow. Wait 30-60 seconds and try again.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;nw-validation-box id=&quot;box-12&quot;&gt;&lt;nw-validation-upload id=&quot;v5w6x7y8&quot; description=&quot;Take a screenshot of your terminal showing a successful curl response from your API&quot; title=&quot;📸 Upload a screenshot of your API working&quot;&gt;&lt;/nw-validation-upload&gt;&lt;nw-validation-text id=&quot;z9a0b1c2&quot; character-limit=&quot;250&quot; placeholder=&quot;I tested that my API works by... The local API responded with... This confirms that...&quot; title=&quot;✍️ How did you test that API was working?&quot;&gt;&lt;/nw-validation-text&gt;&lt;/nw-validation-box&gt;&lt;/nw-section&gt;&lt;nw-section stepid=&quot;step-2&quot; name=&quot;🐳 Step #2&quot; heading=&quot;Install and Set Up Docker&quot;&gt;&lt;p&gt;Now let's install &lt;nw-concept&gt;Docker&lt;/nw-concept&gt; so we can package your API into a container.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;💡 Why Docker?&lt;/strong&gt;&lt;br/&gt;
+&lt;strong&gt;&lt;nw-concept&gt;Containerization&lt;/nw-concept&gt;&lt;/strong&gt; packages your application and everything it needs into one portable container. This solves the &amp;quot;It works on my machine!&amp;quot; problem - your app will run identically anywhere.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;In this step, you're going to:&lt;/strong&gt;&lt;/p&gt;
+&lt;nw-checkbox checked=&quot;false&quot;&gt;&lt;p&gt;Install Docker Desktop&lt;/p&gt;
+&lt;/nw-checkbox&gt;&lt;nw-validation-box id=&quot;box-4&quot;&gt;&lt;nw-validation-text id=&quot;y5z6a7b8&quot; character-limit=&quot;250&quot; placeholder=&quot;In this step, I'm creating... A virtual environment is... I need it because...&quot; title=&quot;✍️ What are we doing in this step?&quot;&gt;&lt;/nw-validation-text&gt;&lt;/nw-validation-box&gt;&lt;p&gt;&lt;strong&gt;Install Docker&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Check if Docker is installed:&lt;/p&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;docker --version
+&lt;/nw-code-block&gt;&lt;nw-tabs id=&quot;docker-check&quot; active=&quot;docker-not-installed&quot;&gt;&lt;nw-tab id=&quot;docker-not-installed&quot; heading=&quot;❌ Command not found&quot;&gt;&lt;p&gt;&lt;nw-image src=&quot;/projects/static/mcp-data-engineer1/docker-not-found.webp&quot; alt=&quot;Docker command not found in terminal&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;Install Docker Desktop:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Visit &lt;a href=&quot;https://www.docker.com/products/docker-desktop/&quot;&gt;docker.com/products/docker-desktop&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/mcp-data-engineer1/screenshot-docker-desktop-landing-page.webp&quot; alt=&quot;Docker Desktop download page&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+&lt;nw-tabs id=&quot;postgres-mcp-docker-install&quot; active=&quot;docker-install-mac&quot;&gt;&lt;nw-tab id=&quot;docker-install-mac&quot; heading=&quot;🍎 macOS&quot;&gt;&lt;p&gt;&lt;strong&gt;Download and Install:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Select &lt;strong&gt;Download for Mac - Apple Chip&lt;/strong&gt; or &lt;strong&gt;Intel Chip&lt;/strong&gt; based on your Mac&lt;/li&gt;
+&lt;li&gt;Open the Docker.dmg file&lt;/li&gt;
+&lt;li&gt;Drag Docker to Applications folder&lt;/li&gt;
+&lt;li&gt;Open Docker from Applications&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Accept&lt;/strong&gt; on the agreement&lt;/li&gt;
+&lt;li&gt;Keep &lt;strong&gt;Use recommended settings&lt;/strong&gt; and click &lt;strong&gt;Finish&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Enter your password if prompted&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Skip&lt;/strong&gt; on the welcome screen&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Verify Installation:&lt;/strong&gt;&lt;/p&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;docker --version
+&lt;/nw-code-block&gt;
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/mcp-data-engineer1/docker-version-mac.webp&quot; alt=&quot;Docker version output on Mac&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;You should see a version number like &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;Docker version 24.0.7&lt;/nw-code-block&gt;.&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;docker-install-windows&quot; heading=&quot;🖼️ Windows&quot;&gt;&lt;p&gt;&lt;strong&gt;Check WSL 2:&lt;/strong&gt;&lt;/p&gt;
+&lt;nw-code-block language=&quot;powershell&quot; inline=&quot;false&quot;&gt;wsl --version
+&lt;/nw-code-block&gt;
+&lt;p&gt;If you see &amp;quot;command not found&amp;quot;, install WSL 2:&lt;/p&gt;
+&lt;nw-code-block language=&quot;powershell&quot; inline=&quot;false&quot;&gt;wsl --install
+&lt;/nw-code-block&gt;
+&lt;p&gt;Restart your computer after installation.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Download and Install Docker:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Click &lt;strong&gt;Download for Windows 10/11 (64-bit)&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Run &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;Docker Desktop Installer.exe&lt;/nw-code-block&gt;&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Run&lt;/strong&gt; on security warning&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Yes&lt;/strong&gt; on permissions prompt&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;OK&lt;/strong&gt; on configuration screen&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Close&lt;/strong&gt; when complete&lt;/li&gt;
+&lt;li&gt;Restart if prompted&lt;/li&gt;
+&lt;li&gt;Open Docker Desktop from Start menu&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Skip&lt;/strong&gt; on the welcome screen&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Verify Installation:&lt;/strong&gt;&lt;/p&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;docker --version
+&lt;/nw-code-block&gt;
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/mcp-data-engineer1/screenshot-docker-install-check.webp&quot; alt=&quot;Docker version output on Windows&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;You should see a version number like &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;Docker version 24.0.7&lt;/nw-code-block&gt;.&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;p&gt;&lt;strong&gt;Make sure Docker Desktop is running:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Look for the &lt;strong&gt;whale icon&lt;/strong&gt; 🐳 in your menu bar (Mac) or system tray (Windows)&lt;/li&gt;
+&lt;li&gt;If you don't see it, open Docker Desktop from Applications/Start menu&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;docker-already-installed&quot; heading=&quot;✅ I see a version number&quot;&gt;&lt;p&gt;Perfect! Docker is installed.&lt;/p&gt;
+
+&lt;p&gt;Make sure Docker Desktop is running:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Open Docker Desktop from Applications (Mac) or Start menu (Windows)&lt;/li&gt;
+&lt;li&gt;Wait for the whale icon to be steady (not animated)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;nw-validation-box id=&quot;box-13&quot;&gt;&lt;nw-validation-text id=&quot;d3e4f5g6&quot; character-limit=&quot;250&quot; placeholder=&quot;Docker Desktop is... I installed it because... Containerization will help my project by...&quot; title=&quot;✍️ What is Docker Desktop and why did you install it for this project?&quot;&gt;&lt;/nw-validation-text&gt;&lt;/nw-validation-box&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Verify Docker is Working&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Test Docker with a hello-world container:&lt;/p&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;docker run hello-world
+&lt;/nw-code-block&gt;&lt;nw-tabs id=&quot;docker-verify-state&quot; active=&quot;success&quot;&gt;&lt;nw-tab id=&quot;success&quot; heading=&quot;✅ I see 'Hello from Docker!'&quot;&gt;&lt;p&gt;Perfect! You should see:&lt;/p&gt;
+&lt;nw-code-block language=&quot;&quot; inline=&quot;false&quot;&gt;Hello from Docker!
+This message shows that your installation appears to be working correctly.
+&lt;/nw-code-block&gt;
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-14.webp&quot; alt=&quot;Terminal showing Docker hello-world container output with success message&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;Docker is ready to go!&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;error&quot; heading=&quot;❌ I see an error&quot;&gt;&lt;p&gt;Common issues:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Cannot connect to daemon&lt;/strong&gt;: Docker Desktop isn't running. Check the whale icon and wait for it to be steady.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Permission denied&lt;/strong&gt;: On Mac, restart Docker Desktop. On Windows, run terminal as Administrator.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Network errors&lt;/strong&gt;: Check your internet connection.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;nw-validation-box id=&quot;box-2&quot;&gt;&lt;nw-validation-upload id=&quot;i9j0k1l2&quot; description=&quot;Take a screenshot of your terminal showing the successful 'Hello from Docker!' message.&quot; title=&quot;📸 Upload a screenshot of Docker working&quot;&gt;&lt;/nw-validation-upload&gt;&lt;nw-validation-text id=&quot;m3n4o5p6&quot; character-limit=&quot;250&quot; placeholder=&quot;I verified Docker is working by... The hello-world container proves that...&quot; title=&quot;✍️ How did you verify Docker is working correctly?&quot;&gt;&lt;/nw-validation-text&gt;&lt;/nw-validation-box&gt;&lt;/nw-section&gt;&lt;nw-section stepid=&quot;step-3&quot; name=&quot;🥡 Step #3&quot; heading=&quot;Containerize Your API&quot;&gt;&lt;p&gt;Let's package your RAG API in a Docker container!&lt;/p&gt;
+
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;In this step, you're going to:&lt;/strong&gt;&lt;/p&gt;
+&lt;nw-checkbox checked=&quot;false&quot;&gt;&lt;p&gt;Create a &lt;nw-concept&gt;Dockerfile&lt;/nw-concept&gt; for your RAG API&lt;/p&gt;
+&lt;/nw-checkbox&gt;&lt;nw-checkbox checked=&quot;false&quot;&gt;&lt;p&gt;Build a &lt;nw-concept&gt;Docker image&lt;/nw-concept&gt; of your RAG API&lt;/p&gt;
+&lt;/nw-checkbox&gt;&lt;nw-checkbox checked=&quot;false&quot;&gt;&lt;p&gt;Test your containerized API&lt;/p&gt;
+&lt;/nw-checkbox&gt;&lt;nw-validation-box id=&quot;box-6&quot;&gt;&lt;nw-validation-text id=&quot;k7l8m9n0&quot; character-limit=&quot;250&quot; placeholder=&quot;In this step, I'm building a RAG API. RAG stands for... I'm creating files like...&quot; title=&quot;✍️ What are we doing in this step?&quot;&gt;&lt;/nw-validation-text&gt;&lt;/nw-validation-box&gt;&lt;p&gt;&lt;strong&gt;Create Dockerfile&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;💡 &lt;strong&gt;What is a Dockerfile?&lt;/strong&gt;&lt;br/&gt;
+A text file with instructions for building a Docker image. It specifies the base image, copies your code, installs dependencies, and defines how to run your app.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In your project folder, create a file called &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;Dockerfile&lt;/nw-code-block&gt; (no extension) with this content:&lt;/p&gt;
+&lt;nw-code-block language=&quot;dockerfile&quot; inline=&quot;false&quot;&gt;FROM python:3.11-slim
+WORKDIR /app
+RUN apt-get update &amp;amp;&amp;amp; apt-get install -y curl &amp;amp;&amp;amp; rm -rf /var/lib/apt/lists/*
+COPY app.py embed.py k8s.txt ./
+RUN pip install fastapi uvicorn chromadb ollama
+RUN python embed.py
+EXPOSE 8000
+CMD [&amp;#34;uvicorn&amp;#34;, &amp;#34;app:app&amp;#34;, &amp;#34;--host&amp;#34;, &amp;#34;0.0.0.0&amp;#34;, &amp;#34;--port&amp;#34;, &amp;#34;8000&amp;#34;]
+&lt;/nw-code-block&gt;
+&lt;blockquote&gt;
+&lt;p&gt;💡 &lt;strong&gt;What does this Dockerfile do?&lt;/strong&gt;&lt;br/&gt;
+- Starts with Python 3.11
+- Sets working directory to /app
+- Installs system dependencies (curl)
+- Copies your code files
+- Installs Python packages
+- Pre-computes embeddings
+- Exposes port 8000
+- Starts the API server&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Save the file.&lt;/p&gt;
+
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-25.webp&quot; alt=&quot;Cursor editor showing Dockerfile with code content&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+&lt;nw-validation-box id=&quot;box-16&quot;&gt;&lt;nw-validation-text id=&quot;a3b4c5d6&quot; character-limit=&quot;250&quot; placeholder=&quot;A Dockerfile is... The key instructions in my Dockerfile are... FROM tells Docker to... COPY is used for... RUN executes... CMD defines...&quot; title=&quot;✍️ What is a Dockerfile? What does your Dockerfile do?&quot;&gt;&lt;/nw-validation-text&gt;&lt;/nw-validation-box&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Build Docker Image&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Build your image:&lt;/p&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;docker build -t rag-app .
+&lt;/nw-code-block&gt;
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-26.webp&quot; alt=&quot;Terminal showing docker build -t rag-app command execution&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;💡 &lt;strong&gt;What does this do?&lt;/strong&gt;&lt;br/&gt;
+- &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;docker build&lt;/nw-code-block&gt; - Builds an image from the Dockerfile
+- &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;-t rag-app&lt;/nw-code-block&gt; - Tags (names) the image &amp;quot;rag-app&amp;quot;
+- &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;.&lt;/nw-code-block&gt; - Uses the current directory as build context&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This will take 3-5 minutes. You'll see steps being executed as Docker builds your image:&lt;/p&gt;
+
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/new-2.webp&quot; alt=&quot;Terminal showing Docker build progress with multiple steps executing&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+&lt;nw-tabs id=&quot;docker-build-state&quot; active=&quot;success&quot;&gt;&lt;nw-tab id=&quot;success&quot; heading=&quot;✅ Build completed successfully&quot;&gt;&lt;p&gt;Perfect! Verify your image was created:&lt;/p&gt;
+&lt;nw-tabs id=&quot;verify-image-os&quot; active=&quot;mac-verify&quot;&gt;&lt;nw-tab id=&quot;mac-verify&quot; heading=&quot;🍎 macOS&quot;&gt;&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;docker images | grep rag-app
+&lt;/nw-code-block&gt;&lt;/nw-tab&gt;&lt;nw-tab id=&quot;windows-verify&quot; heading=&quot;🖼️ Windows&quot;&gt;&lt;nw-code-block language=&quot;powershell&quot; inline=&quot;false&quot;&gt;docker images | Select-String rag-app
+&lt;/nw-code-block&gt;&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;p&gt;You should see &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;rag-app&lt;/nw-code-block&gt; with the tag &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;latest&lt;/nw-code-block&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-28.webp&quot; alt=&quot;Terminal showing docker images command with rag-app listed&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;error&quot; heading=&quot;❌ I see a build error&quot;&gt;&lt;p&gt;Common issues:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;File not found&lt;/strong&gt;: Make sure you're in your project's root directory with all files (app.py, embed.py, k8s.txt, Dockerfile)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;No space left&lt;/strong&gt;: Clean up Docker: &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;docker system prune -a&lt;/nw-code-block&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pip install errors&lt;/strong&gt;: Check your internet connection&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;nw-validation-box id=&quot;box-14&quot;&gt;&lt;nw-validation-upload id=&quot;p9q0r1s2&quot; description=&quot;Take a screenshot of your terminal showing the docker images command output with your rag-app image listed.&quot; title=&quot;📸 Upload a screenshot of your built Docker image&quot;&gt;&lt;/nw-validation-upload&gt;&lt;nw-validation-text id=&quot;h7i8j9k0&quot; character-limit=&quot;250&quot; placeholder=&quot;Building a Docker image involves... I verified my Docker image was built successfully by... This confirms that my API is now containerized because...&quot; title=&quot;✍️ How did you verify your Docker image was built successfully?&quot;&gt;&lt;/nw-validation-text&gt;&lt;/nw-validation-box&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Run Your Container&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;💡 &lt;strong&gt;Image vs Container?&lt;/strong&gt;&lt;br/&gt;
+An &lt;strong&gt;image&lt;/strong&gt; is a read-only template. A &lt;strong&gt;container&lt;/strong&gt; is a running instance of an image.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Start your container:&lt;/p&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;docker run -p 8000:8000 rag-app
+&lt;/nw-code-block&gt;
+&lt;blockquote&gt;
+&lt;p&gt;💡 &lt;strong&gt;What does -p 8000:8000 do?&lt;/strong&gt;&lt;br/&gt;
+Maps port 8000 on your computer to port 8000 in the container, making your API accessible at &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;http://localhost:8000&lt;/nw-code-block&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;nw-tabs id=&quot;docker-run-state&quot; active=&quot;success&quot;&gt;&lt;nw-tab id=&quot;success&quot; heading=&quot;✅ Container is running&quot;&gt;&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-29.webp&quot; alt=&quot;Terminal showing docker run -p 8000:8000 rag-app with container running&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;You should see uvicorn startup messages. Keep this terminal open.&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;error&quot; heading=&quot;❌ I see an error&quot;&gt;&lt;p&gt;Common issues:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Port already in use&lt;/strong&gt;: Stop the process using port 8000 or use a different port: &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;docker run -p 8001:8000 rag-app&lt;/nw-code-block&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Image not found&lt;/strong&gt;: Build the image first: &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;docker build -t rag-app .&lt;/nw-code-block&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;nw-validation-box id=&quot;box-18&quot;&gt;&lt;nw-validation-upload id=&quot;x7y8z9a0&quot; description=&quot;Take a screenshot of your terminal showing the container running with messages like 'Uvicorn running on http://0.0.0.0:8000'.&quot; title=&quot;📸 Upload a screenshot of your running container&quot;&gt;&lt;/nw-validation-upload&gt;&lt;/nw-validation-box&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Test Your Containerized API&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Open a new terminal and test:&lt;/p&gt;
+&lt;nw-tabs id=&quot;test-containerized-api-os&quot; active=&quot;mac-containerized&quot;&gt;&lt;nw-tab id=&quot;mac-containerized&quot; heading=&quot;🍎 macOS&quot;&gt;&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;curl -X POST &amp;#34;http://127.0.0.1:8000/query&amp;#34; -G --data-urlencode &amp;#34;q=What is Kubernetes?&amp;#34;
+&lt;/nw-code-block&gt;&lt;/nw-tab&gt;&lt;nw-tab id=&quot;windows-containerized&quot; heading=&quot;🖼️ Windows&quot;&gt;&lt;nw-code-block language=&quot;powershell&quot; inline=&quot;false&quot;&gt;Invoke-WebRequest -Uri &amp;#34;http://127.0.0.1:8000/query?q=What%20is%20Kubernetes%3F&amp;#34; -Method POST
+&lt;/nw-code-block&gt;&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;nw-tabs id=&quot;api-test-state-2&quot; active=&quot;success&quot;&gt;&lt;nw-tab id=&quot;success&quot; heading=&quot;✅ I got a JSON response&quot;&gt;&lt;p&gt;Perfect! You should see:&lt;/p&gt;
+&lt;nw-code-block language=&quot;json&quot; inline=&quot;false&quot;&gt;{&amp;#34;answer&amp;#34;:&amp;#34;Kubernetes is a container orchestration platform that helps manage containers at scale...&amp;#34;}
+&lt;/nw-code-block&gt;
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-40.webp&quot; alt=&quot;Terminal showing successful curl request with JSON response from containerized RAG API&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;Your containerized API is working! This proves:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Your API code works inside Docker&lt;/li&gt;
+&lt;li&gt;All dependencies are correctly packaged&lt;/li&gt;
+&lt;li&gt;The container can access Ollama on your host&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;error&quot; heading=&quot;❌ I got an error or no response&quot;&gt;&lt;p&gt;Common issues:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Connection refused&lt;/strong&gt;: Container not running. Check the first terminal.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Internal Server Error&lt;/strong&gt;: Check if Ollama is running on your host: &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;curl http://localhost:11434&lt;/nw-code-block&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;If Ollama is running but you still see ConnectionError:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-31.webp&quot; alt=&quot;Terminal showing Internal Server Error when querying containerized API&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;Your container can't reach Ollama on your host. Fix this by updating app.py:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Stop your container by pressing &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;Ctrl + C&lt;/nw-code-block&gt; in the terminal where it's running.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/new-15.webp&quot; alt=&quot;Terminal showing Ctrl+C being pressed to stop the running Docker container&quot;&gt;&lt;/nw-image&gt;
+- Open &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;app.py&lt;/nw-code-block&gt; in your editor.
+- Find where you create the collection. Right after this line:&lt;/p&gt;
+&lt;nw-code-block language=&quot;python&quot; inline=&quot;false&quot;&gt;collection = chroma.get_or_create_collection(&amp;#34;docs&amp;#34;)
+&lt;/nw-code-block&gt;
+&lt;ul&gt;
+&lt;li&gt;Add this line to create an Ollama client that knows where to find Ollama:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;nw-code-block language=&quot;python&quot; inline=&quot;false&quot;&gt;ollama_client = ollama.Client(host=&amp;#34;http://host.docker.internal:11434&amp;#34;)
+&lt;/nw-code-block&gt;
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/new-12.webp&quot; alt=&quot;Cursor showing app.py with ollama_client code added after collection creation&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;💡 &lt;strong&gt;What is host.docker.internal?&lt;/strong&gt;&lt;br/&gt;
+A special hostname that lets containers access services on your host machine (Mac/Windows). On Linux, use your computer's IP address instead.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Now find the &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;ollama.generate()&lt;/nw-code-block&gt; call. Change it to use your client instance:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;nw-code-block language=&quot;python&quot; inline=&quot;false&quot;&gt;answer = ollama_client.generate(
+    model=&amp;#34;tinyllama&amp;#34;,
+    prompt=f&amp;#34;Context:\n{context}\n\nQuestion: {q}\n\nAnswer clearly and concisely:&amp;#34;
+)
+&lt;/nw-code-block&gt;
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/new-9.webp&quot; alt=&quot;Cursor showing app.py with updated ollama_client.generate() call replacing ollama.generate()&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Save the file, then rebuild and run:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;docker build -t rag-app .
+&lt;/nw-code-block&gt;
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-38.webp&quot; alt=&quot;Terminal showing docker build -t rag-app command with build progress&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;docker run -p 8000:8000 rag-app
+&lt;/nw-code-block&gt;
+&lt;p&gt;&lt;nw-image src=&quot;/projects/static/ai-devops-docker/image-39.webp&quot; alt=&quot;Terminal showing docker run -p 8000:8000 rag-app with container running successfully&quot;&gt;&lt;/nw-image&gt;&lt;/p&gt;
+
+&lt;p&gt;Test again - you should now get a successful response!&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;nw-validation-box id=&quot;box-7&quot;&gt;&lt;nw-validation-upload id=&quot;o1p2q3r4&quot; description=&quot;Take a screenshot of a successful curl response from the /query endpoint.&quot; title=&quot;📸 Upload a screenshot of your working RAG API&quot;&gt;&lt;/nw-validation-upload&gt;&lt;nw-validation-text id=&quot;s5t6u7v8&quot; character-limit=&quot;250&quot; placeholder=&quot;Testing the API after containerization proved that... The difference between running locally and in Docker is... Containerization helps because...&quot; title=&quot;✍️ What did testing your containerized API prove? How is it different from running locally?&quot;&gt;&lt;/nw-validation-text&gt;&lt;/nw-validation-box&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Stop the Container&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;When done testing:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Go to the terminal running the container&lt;/li&gt;
+&lt;li&gt;Press &lt;nw-code-block language=&quot;bash&quot; inline=&quot;true&quot;&gt;Ctrl + C&lt;/nw-code-block&gt; to stop it&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/nw-section&gt;&lt;nw-section stepid=&quot;secret-mission&quot; name=&quot;💎 Secret Mission&quot; heading=&quot;Share your Docker Image&quot;&gt;&lt;p&gt;Ready for a challenge? Push your Docker image to &lt;nw-concept&gt;Docker Hub&lt;/nw-concept&gt; to share it publicly!&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;💎 In this secret mission, you're going to:&lt;/strong&gt;&lt;/p&gt;
+&lt;nw-checkbox checked=&quot;false&quot;&gt;&lt;p&gt;Create a Docker Hub account&lt;/p&gt;
+&lt;/nw-checkbox&gt;&lt;nw-checkbox checked=&quot;false&quot;&gt;&lt;p&gt;Tag and push your image to Docker Hub&lt;/p&gt;
+&lt;/nw-checkbox&gt;&lt;nw-checkbox checked=&quot;false&quot;&gt;&lt;p&gt;Pull and run your image from Docker Hub&lt;/p&gt;
+&lt;/nw-checkbox&gt;&lt;nw-section type=&quot;pro&quot; id=&quot;ai-devops-docker-secret-mission-low&quot; content-id=&quot;secret-mission-low&quot;&gt;&lt;/nw-section&gt;&lt;/nw-section&gt;&lt;nw-section stepid=&quot;before-you-go&quot; name=&quot;🗑️ Before You Go&quot; heading=&quot;Delete your resources&quot;&gt;&lt;p&gt;Everything we created is &lt;strong&gt;free to keep&lt;/strong&gt; - Docker images just use disk space. Only delete if you want to free up space.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;💡 &lt;strong&gt;Do I need to delete anything?&lt;/strong&gt;&lt;br/&gt;
+No! All resources are free. Docker images on your computer just use disk space, and Docker Hub images are free for public repositories.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+&lt;nw-tabs id=&quot;cleanup-options&quot; active=&quot;keep-everything&quot;&gt;&lt;nw-tab id=&quot;keep-everything&quot; heading=&quot;✅ Keep everything (recommended)&quot;&gt;&lt;p&gt;Great choice! No cost to keeping your Docker images.&lt;/p&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;delete-local-images&quot; heading=&quot;🗑️ Delete local Docker images&quot;&gt;&lt;p&gt;Remove Docker images:&lt;/p&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;docker images
+docker rmi rag-app
+&lt;/nw-code-block&gt;
+&lt;p&gt;Remove all unused images (optional):&lt;/p&gt;
+&lt;nw-code-block language=&quot;bash&quot; inline=&quot;false&quot;&gt;docker image prune -a
+&lt;/nw-code-block&gt;
+&lt;blockquote&gt;
+&lt;p&gt;💡 &lt;strong&gt;Warning:&lt;/strong&gt; This removes all unused images. Only do this if you're sure!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/nw-tab&gt;&lt;nw-tab id=&quot;stop-docker&quot; heading=&quot;🛑 Stop Docker Desktop&quot;&gt;&lt;p&gt;Stop Docker Desktop when not in use:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;macOS&lt;/strong&gt;: Right-click Docker icon → Quit Docker Desktop&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Windows&lt;/strong&gt;: Right-click Docker icon → Quit Docker Desktop&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;💡 &lt;strong&gt;Tip:&lt;/strong&gt; Stopping Docker Desktop doesn't delete images or containers.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/nw-tab&gt;&lt;/nw-tabs&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+&lt;nw-validation-box id=&quot;wrapup&quot;&gt;&lt;nw-validation-text id=&quot;u3v4w5x6&quot; character-limit=&quot;250&quot; placeholder=&quot;Services I used were... Key concepts I learnt include...&quot; title=&quot;✅ What were the key services and concepts you learnt in this project?&quot;&gt;&lt;/nw-validation-text&gt;&lt;nw-validation-text id=&quot;y7z8a9b0&quot; character-limit=&quot;250&quot; placeholder=&quot;This project took me approximately... The most challenging part was... It was most rewarding to...&quot; title=&quot;✅ How long did it take you to complete this project?&quot;&gt;&lt;/nw-validation-text&gt;&lt;nw-validation-text id=&quot;ce0d1e534&quot; character-limit=&quot;250&quot; description=&quot;Why did you do this project today? Did this project meet your goals?&quot; placeholder=&quot;I did this project because...&quot; title=&quot;❤️ Thanks for doing this project!&quot;&gt;&lt;/nw-validation-text&gt;&lt;/nw-validation-box&gt;&lt;/nw-section&gt;&lt;nw-section stepid=&quot;mission-accomplished&quot; name=&quot;🎉 Mission Accomplished&quot; heading=&quot;Well done!&quot;&gt;&lt;p&gt;Nice work! 🐳 You've containerized your RAG API with Docker.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;You've learned how to:&lt;/strong&gt;&lt;/p&gt;
+&lt;nw-checkbox checked=&quot;false&quot;&gt;&lt;p&gt;Package your API in a Docker container&lt;/p&gt;
+&lt;/nw-checkbox&gt;&lt;nw-checkbox checked=&quot;false&quot;&gt;&lt;p&gt;Build Docker images from Dockerfiles&lt;/p&gt;
+&lt;/nw-checkbox&gt;&lt;nw-checkbox checked=&quot;false&quot;&gt;&lt;p&gt;Run containerized applications&lt;/p&gt;
+&lt;/nw-checkbox&gt;&lt;nw-checkbox checked=&quot;false&quot;&gt;&lt;p&gt;Test APIs running in containers&lt;/p&gt;
+&lt;/nw-checkbox&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;What you built:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;A containerized RAG API that:
+* Runs identically anywhere Docker is installed
+* Includes all dependencies in the image
+* Can be easily shared and deployed
+* Is production-ready for cloud deployment&lt;/p&gt;
+
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;Ready to quiz yourself? 💪&lt;/p&gt;
+&lt;nw-quiz&gt;&lt;/nw-quiz&gt;&lt;p&gt;&lt;strong&gt;What's Next in the DevOps × AI Series?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;☸️ Project 3: Deploy to Kubernetes&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Learn to deploy your containerized API to Kubernetes for automatic scaling and management.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;🔄 Project 4: Automate Deployments with GitHub Actions&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Add CI/CD pipelines to automatically build and deploy when your code changes.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;🚀 &lt;strong&gt;p.s. Does it say &amp;quot;Still tasks to complete!&amp;quot; at the bottom of the screen?&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;This means you still have screenshots left to upload, or questions left to answer!&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Press Ctrl+F (Windows) or Command+F (Mac) on your keyboard.&lt;/li&gt;
+&lt;li&gt;Search for the text &lt;strong&gt;Return to later&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Jump straight to your incomplete tasks!&lt;/li&gt;
+&lt;li&gt;🙋‍♀️ Still stuck? &lt;a href=&quot;https://discord.gg/gexhP97ySu&quot;&gt;Ask the community!&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;nw-anchor id=&quot;validation-reminder-banner&quot;&gt;&lt;/nw-anchor&gt;&lt;/nw-section&gt;" save-against-track="" with-scroll-observation="" with-node-hover=""></nw-editor></div></div><div class="my-10 px-12 w-full mx-auto"><div class="rainbow-border-wrapper animate-fadeInFast mx-auto"><div class="rainbow-border-content"><div class="p-16 flex w-full flex-1 flex-col bg-white border border-success-400 rounded-2xl justify-start items-center gap-8"><div class="flex-col justify-start items-center gap-5 flex"><h3 class="self-stretch text-center text-primary text-3xl font-semibold">👏 All done!</h3><p class="self-stretch text-center text-tertiary text-lg leading-7 max-w-md">Another epic project complete. We'll keep your documentation here for whenever you need it.</p></div><nw-button size="fit" type="primary">View Documentation</nw-button></div></div></div></div></div></div><div class="overflow-clip"><pages-project-ui-table-of-content></pages-project-ui-table-of-content></div></div></div></div><div class="@container/right-panel top-0 right-0 fixed h-dvh flex shrink-0 overflow-hidden" style="transform: none; width: 100vw; z-index: 506;"><div class="w-full overflow-y-auto relative outline-none focus:outline-none bg-scroll bg-paper" tabindex="-1" role="region" aria-label="My Work panel"><div class="sticky top-0 z-20 border-b px-5 py-3 flex items-center gap-2 justify-between w-full bg-paper/60 border-tertiary backdrop-blur-sm"><button class="h-max w-max outline-hidden flex items-center gap-2" data-rac="" type="button" tabindex="0" data-react-aria-pressable="true" id="react-aria7596371230-«r1»"><h4 class="transition-all duration-500 text-primary">Documentation</h4><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="transition-all duration-500 text-primary"><path d="M12 16v-4m0-4h.01M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10Z"></path></svg></button><div class="flex items-center gap-2"><button data-icon-only="true" class="group relative inline-flex h-max cursor-pointer items-center justify-center whitespace-nowrap outline-brand transition duration-100 ease-linear before:absolute focus-visible:outline-2 focus-visible:outline-offset-2 in-data-input-wrapper:shadow-xs in-data-input-wrapper:focus:!z-50 in-data-input-wrapper:in-data-leading:-mr-px in-data-input-wrapper:in-data-leading:rounded-r-none in-data-input-wrapper:in-data-leading:before:rounded-r-none in-data-input-wrapper:in-data-trailing:-ml-px in-data-input-wrapper:in-data-trailing:rounded-l-none in-data-input-wrapper:in-data-trailing:before:rounded-l-none disabled:cursor-not-allowed disabled:text-fg-disabled disabled:*:data-icon:text-fg-disabled_subtle *:data-icon:pointer-events-none *:data-icon:size-5 *:data-icon:shrink-0 *:data-icon:transition-inherit-all gap-1 rounded-lg px-3 py-2 text-sm font-semibold before:rounded-[7px] data-icon-only:p-2 in-data-input-wrapper:px-3.5 in-data-input-wrapper:py-2.5 in-data-input-wrapper:data-icon-only:p-2.5 text-tertiary hover:bg-primary_hover hover:text-tertiary_hover data-loading:bg-primary_hover *:data-icon:text-fg-quaternary hover:*:data-icon:text-fg-quaternary_hover" data-rac="" type="button" tabindex="0" aria-haspopup="true" aria-expanded="false" id="react-aria7596371230-«r3»" data-react-aria-pressable="true"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 10V3.6c0-.56 0-.84-.109-1.054a1 1 0 0 0-.437-.437C17.24 2 16.96 2 16.4 2H7.6c-.56 0-.84 0-1.054.109a1 1 0 0 0-.437.437C6 2.76 6 3.04 6 3.6V10m12 0H6m12 0v.2c0 1.68 0 2.52-.327 3.162a3 3 0 0 1-1.311 1.311C15.72 15 14.88 15 13.2 15h-2.4c-1.68 0-2.52 0-3.162-.327a3 3 0 0 1-1.311-1.311C6 12.72 6 11.88 6 10.2V10m8.5 5v4.5a2.5 2.5 0 0 1-5 0V15"></path></svg></button><button data-icon-only="true" class="group relative inline-flex h-max cursor-pointer items-center justify-center whitespace-nowrap outline-brand transition duration-100 ease-linear before:absolute focus-visible:outline-2 focus-visible:outline-offset-2 in-data-input-wrapper:shadow-xs in-data-input-wrapper:focus:!z-50 in-data-input-wrapper:in-data-leading:-mr-px in-data-input-wrapper:in-data-leading:rounded-r-none in-data-input-wrapper:in-data-leading:before:rounded-r-none in-data-input-wrapper:in-data-trailing:-ml-px in-data-input-wrapper:in-data-trailing:rounded-l-none in-data-input-wrapper:in-data-trailing:before:rounded-l-none disabled:cursor-not-allowed disabled:text-fg-disabled disabled:*:data-icon:text-fg-disabled_subtle *:data-icon:pointer-events-none *:data-icon:size-5 *:data-icon:shrink-0 *:data-icon:transition-inherit-all gap-1 rounded-lg px-3 py-2 text-sm font-semibold before:rounded-[7px] data-icon-only:p-2 in-data-input-wrapper:px-3.5 in-data-input-wrapper:py-2.5 in-data-input-wrapper:data-icon-only:p-2.5 text-tertiary hover:bg-primary_hover hover:text-tertiary_hover data-loading:bg-primary_hover *:data-icon:text-fg-quaternary hover:*:data-icon:text-fg-quaternary_hover" data-rac="" type="button" tabindex="0" data-react-aria-pressable="true" aria-label="Preview Work" id="react-aria7596371230-«r8»"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14h6m0 0v6m0-6-7 7m17-11h-6m0 0V4m0 6 7-7"></path></svg></button><button data-icon-only="true" class="group relative inline-flex h-max cursor-pointer items-center justify-center whitespace-nowrap outline-brand transition duration-100 ease-linear before:absolute focus-visible:outline-2 focus-visible:outline-offset-2 in-data-input-wrapper:shadow-xs in-data-input-wrapper:focus:!z-50 in-data-input-wrapper:in-data-leading:-mr-px in-data-input-wrapper:in-data-leading:rounded-r-none in-data-input-wrapper:in-data-leading:before:rounded-r-none in-data-input-wrapper:in-data-trailing:-ml-px in-data-input-wrapper:in-data-trailing:rounded-l-none in-data-input-wrapper:in-data-trailing:before:rounded-l-none disabled:cursor-not-allowed disabled:text-fg-disabled disabled:*:data-icon:text-fg-disabled_subtle *:data-icon:pointer-events-none *:data-icon:size-5 *:data-icon:shrink-0 *:data-icon:transition-inherit-all gap-1 rounded-lg px-3 py-2 text-sm font-semibold before:rounded-[7px] data-icon-only:p-2 in-data-input-wrapper:px-3.5 in-data-input-wrapper:py-2.5 in-data-input-wrapper:data-icon-only:p-2.5 text-tertiary hover:bg-primary_hover hover:text-tertiary_hover data-loading:bg-primary_hover *:data-icon:text-fg-quaternary hover:*:data-icon:text-fg-quaternary_hover" data-rac="" type="button" tabindex="0" data-react-aria-pressable="true" aria-label="Close docs panel" id="react-aria7596371230-«rb»"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 7 7 17M7 7l10 10"></path></svg></button></div></div><div class="relative flex-1 z-10 w-full"><div class="bg-cover bg-center bg-no-repeat pt-8 relative px-2 bg-paper bg-cover bg-center bg-no-repeat" style="background-image: url(&quot;/static/images/documentation/light-hero-background.svg&quot;);"><div class="absolute inset-x-0 bottom-0 h-32 pointer-events-none" style="background: linear-gradient(transparent 0%, rgb(248, 245, 241) 100%);"></div><section class="w-full flex-1 flex flex-col items-center justify-center text-center py-8 gap-y-6 transition-all duration-300 @3xl:mt-[8svh]"><div class="w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 text-primary bg-white border-secondary drop-shadow-lg"><nw-icon name="logo-mark-line" width="32" height="32"></nw-icon></div><h1 class="font-extrabold mx-4 max-w-2xl uppercase transition-colors text-4xl @3xl:text-7xl @3xl:font-black @3xl:max-w-3xl transition-all duration-500 text-primary font-display!">Containerize a RAG API with Docker</h1><div class="leading-5 @3xl:text-lg @3xl:leading-8 @xl:flex-row flex-col flex items-center justify-center gap-2.5 flex-wrap transition-all duration-500 text-secondary"><div class="inline-flex flex-wrap items-center justify-center gap-2"><span>By</span><div class="inline-grid grid-cols-1 max-w-3xs @xl:max-w-sm min-w-0 relative"><span class="col-start-1 row-start-1 invisible whitespace-pre py-0.5 font-inherit text-inherit">Trung HPB</span><input maxlength="100" autocomplete="off" data-1p-ignore="true" placeholder="Your name..." class="col-start-1 row-start-1 rounded py-0.5 outline-none focus:ring-2 focus:ring-primary/50 transition-all duration-300 text-inherit placeholder:text-inherit placeholder:opacity-50 truncate [field-sizing:content] px-0.5 bg-transparent hover:bg-brand-100/20" aria-label="Documentation authors name" type="text" value="Trung HPB" name="author-name"></div></div><div class="flex items-center gap-2"><span class="opacity-50 @xl:visible invisible">|</span><span>January 2026</span></div></div><button class="group relative inline-flex h-max cursor-pointer items-center justify-center whitespace-nowrap outline-brand ease-linear focus-visible:outline-2 focus-visible:outline-offset-2 in-data-input-wrapper:shadow-xs in-data-input-wrapper:focus:!z-50 in-data-input-wrapper:in-data-leading:-mr-px in-data-input-wrapper:in-data-leading:rounded-r-none in-data-input-wrapper:in-data-leading:before:rounded-r-none in-data-input-wrapper:in-data-trailing:-ml-px in-data-input-wrapper:in-data-trailing:rounded-l-none in-data-input-wrapper:in-data-trailing:before:rounded-l-none disabled:cursor-not-allowed disabled:text-fg-disabled disabled:*:data-icon:text-fg-disabled_subtle *:data-icon:pointer-events-none *:data-icon:size-5 *:data-icon:shrink-0 *:data-icon:transition-inherit-all gap-1 rounded-lg px-3 py-2 text-sm font-semibold before:rounded-[7px] data-icon-only:p-2 in-data-input-wrapper:px-3.5 in-data-input-wrapper:py-2.5 in-data-input-wrapper:data-icon-only:p-2.5 bg-brand-solid text-white shadow-xs-skeumorphic ring-1 ring-transparent ring-inset hover:bg-brand-solid_hover data-loading:bg-brand-solid_hover before:absolute before:inset-px before:border before:border-white/12 before:mask-b-from-0% disabled:bg-disabled disabled:shadow-xs disabled:ring-disabled_subtle *:data-icon:text-button-primary-icon hover:*:data-icon:text-button-primary-icon_hover transition-opacity duration-75 opacity-0 pointer-events-none" data-rac="" type="button" tabindex="0" data-react-aria-pressable="true" id="react-aria7596371230-«rd»"><span data-text="true" class="transition-inherit-all px-0.5">Share Work</span><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14h6m0 0v6m0-6-7 7m17-11h-6m0 0V4m0 6 7-7"></path></svg></button></section></div><div class="px-2 @md:px-8"><div class="flex flex-col justify-start mx-auto max-w-2xl mb-32 px-4 @md:px-8"><div class="transition-all duration-500"><div class=""><section id="x7y8z9a0" class="flex flex-col mb-2 scroll-mt-36"><div class="relative flex flex-col"><div><div class="relative"><div role="presentation" tabindex="0" class="relative flex justify-center items-center w-full px-10 py-6 rounded-2xl shadow-lg transition-all transition-all duration-500 bg-brand-25 cursor-pointer"><div class="relative rounded-xl inline-flex transition-opacity max-h-96 min-h-48"><img alt="Screenshot From 2026-01-30 00-07-08.png" loading="lazy" class="object-contain max-w-full h-auto w-auto aspect-auto transition-all duration-300 rounded-xl cursor-zoom-in opacity-100 rounded-xl inline-flex transition-opacity max-h-96" src="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/ai-devops-docker_x7y8z9a0.png"></div><input accept="image/png,.png,image/jpg,.jpg,image/jpeg,.jpeg" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: 0px -1px -1px 0px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;" tabindex="-1" type="file"></div></div></div></div></section></div></div><div class="transition-all duration-500 border-t mt-14 border-secondary"><h1 class="font-light text-2xl mb-5 mt-14 leading-8 transition-all duration-500 text-primary">Introducing Today's Project!</h1><div class=""><section id="a1b2c3d4" class="flex flex-col mb-2 scroll-mt-36"><div class="relative flex flex-col"><div class="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500 break-words text-md whitespace-pre-wrap text-secondary cursor-pointer hover:bg-brand-100/20 rounded px-1 -mx-1 transition-colors" role="button" tabindex="0">In this project, I will demonstrate Docker containers of FastAPI, Ollama  I'm doing this project to learn to containerize RAG API with Docker</div></div></section></div><div class=""><section id="u3v4w5x6" class="flex flex-col mb-2 scroll-mt-36"><h2 class="text-xl mb-4 mt-8 leading-7 transition-all duration-500 text-primary">Key services and concepts</h2><div class="relative flex flex-col"><div class="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500 break-words text-md whitespace-pre-wrap text-secondary cursor-pointer hover:bg-brand-100/20 rounded px-1 -mx-1 transition-colors" role="button" tabindex="0">Services I used were Docker, RAG API</div></div></section></div><div class=""><section id="y7z8a9b0" class="flex flex-col mb-2 scroll-mt-36"><h2 class="text-xl mb-4 mt-8 leading-7 transition-all duration-500 text-primary">Challenges and wins</h2><div class="relative flex flex-col"><div class="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500 break-words text-md whitespace-pre-wrap text-secondary cursor-pointer hover:bg-brand-100/20 rounded px-1 -mx-1 transition-colors" role="button" tabindex="0">This project took me approximately 2 hours The most challenging part was debugging Docker ports and connection. It was most rewarding to see the all containers are up and running</div></div></section></div><div class=""><section id="ce0d1e534" class="flex flex-col mb-2 scroll-mt-36"><h2 class="text-xl mb-4 mt-8 leading-7 transition-all duration-500 text-primary">Why I did this project</h2><div class="relative flex flex-col"><div class="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500 break-words text-md whitespace-pre-wrap text-secondary cursor-pointer hover:bg-brand-100/20 rounded px-1 -mx-1 transition-colors" role="button" tabindex="0">I did this project because I like to learn about Ollama, Docker and FastAPI</div></div></section></div></div><div class="transition-all duration-500 border-t mt-14 border-secondary"><h1 class="font-light text-2xl mb-5 mt-14 leading-8 transition-all duration-500 text-primary">Setting Up the RAG API</h1><div class=""><section id="e5f6g7h8" class="flex flex-col mb-2 scroll-mt-36"><div class="relative flex flex-col"><div class="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500 break-words text-md whitespace-pre-wrap text-secondary cursor-pointer hover:bg-brand-100/20 rounded px-1 -mx-1 transition-colors" role="button" tabindex="0">In this step, I'm setting up code and dependencies. The RAG API is activated and running ie. Ollama</div></div></section></div><div class=""><section id="y5z6a7b8" class="flex flex-col mb-2 scroll-mt-36"><h2 class="text-xl mb-4 mt-8 leading-7 transition-all duration-500 text-primary">API setup and workspace</h2><div class="relative flex flex-col"><div class="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500 break-words text-md whitespace-pre-wrap text-secondary cursor-pointer hover:bg-brand-100/20 rounded px-1 -mx-1 transition-colors" role="button" tabindex="0">I created Docker container of Ollama then i pull and run tinyllama inside the docker container</div></div></section></div><div class=""><section id="g3h4i5j6" class="flex flex-col mb-2 scroll-mt-36"><h2 class="text-xl mb-4 mt-8 leading-7 transition-all duration-500 text-primary">Dependencies installed</h2><div class="relative flex flex-col"><div class="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500 break-words text-md whitespace-pre-wrap text-secondary cursor-pointer hover:bg-brand-100/20 rounded px-1 -mx-1 transition-colors" role="button" tabindex="0">The packages I installed are fastapi, uvicorn, chromadb, ollama. FastAPI is used for webapp 
+Chroma is used for vector database to store embeded text. </div></div></section></div><div class="mt-10"><section id="c9d0e1f2" class="flex flex-col mb-2 scroll-mt-36"><div class="relative flex flex-col"><div><div class="relative"><div role="presentation" tabindex="0" class="relative flex justify-center items-center w-full px-10 py-6 rounded-2xl shadow-lg transition-all transition-all duration-500 bg-brand-25 cursor-pointer"><div class="relative rounded-xl inline-flex transition-opacity max-h-80 min-h-48"><img alt="Screenshot From 2026-01-29 17-00-14.png" loading="lazy" class="object-contain max-w-full h-auto w-auto aspect-auto transition-all duration-300 rounded-xl cursor-zoom-in opacity-100 rounded-xl inline-flex transition-opacity max-h-80" src="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/ai-devops-docker_c9d0e1f2.png"></div><input accept="image/png,.png,image/jpg,.jpg,image/jpeg,.jpeg" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: 0px -1px -1px 0px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;" tabindex="-1" type="file"></div></div></div></div></section></div><div class=""><section id="z9a0b1c2" class="flex flex-col mb-2 scroll-mt-36"><h2 class="text-xl mb-4 mt-8 leading-7 transition-all duration-500 text-primary">Local API working</h2><div class="relative flex flex-col"><div class="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500 break-words text-md whitespace-pre-wrap text-secondary cursor-pointer hover:bg-brand-100/20 rounded px-1 -mx-1 transition-colors" role="button" tabindex="0">I tested that my API works by curling the query string for FastAPI. The local API responded with answer about Kubernetes. This confirms that the API was working</div></div></section></div><div class="mt-10"><section id="v5w6x7y8" class="flex flex-col mb-2 scroll-mt-36"><div class="relative flex flex-col"><div><div class="relative"><div role="presentation" tabindex="0" class="relative flex justify-center items-center w-full px-10 py-6 rounded-2xl shadow-lg transition-all transition-all duration-500 bg-brand-25 cursor-pointer"><div class="relative rounded-xl inline-flex transition-opacity max-h-80 min-h-48"><img alt="Screenshot From 2026-01-29 18-33-10.png" loading="lazy" class="object-contain max-w-full h-auto w-auto aspect-auto transition-all duration-300 rounded-xl cursor-zoom-in opacity-100 rounded-xl inline-flex transition-opacity max-h-80" src="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/ai-devops-docker_v5w6x7y8.png"></div><input accept="image/png,.png,image/jpg,.jpg,image/jpeg,.jpeg" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: 0px -1px -1px 0px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;" tabindex="-1" type="file"></div></div></div></div></section></div></div><div class="transition-all duration-500 border-t mt-14 border-secondary"><h1 class="font-light text-2xl mb-5 mt-14 leading-8 transition-all duration-500 text-primary">Installing Docker Desktop</h1><div class=""><section id="d3e4f5g6" class="flex flex-col mb-2 scroll-mt-36"><h2 class="text-xl mb-4 mt-8 leading-7 transition-all duration-500 text-primary">Docker Desktop setup</h2><div class="relative flex flex-col"><div class="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500 break-words text-md whitespace-pre-wrap text-secondary cursor-pointer hover:bg-brand-100/20 rounded px-1 -mx-1 transition-colors" role="button" tabindex="0">I don't install Docker Desktop, I only use Docker CLI or this project.</div></div></section></div><div class=""><section id="m3n4o5p6" class="flex flex-col mb-2 scroll-mt-36"><h2 class="text-xl mb-4 mt-8 leading-7 transition-all duration-500 text-primary">Docker verification</h2><div class="relative flex flex-col"><div class="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500 break-words text-md whitespace-pre-wrap text-secondary cursor-pointer hover:bg-brand-100/20 rounded px-1 -mx-1 transition-colors" role="button" tabindex="0">I verified Docker is working by using docker run hello-world. The hello-world container proves that docker is running</div></div></section></div><div class="mt-10"><section id="i9j0k1l2" class="flex flex-col mb-2 scroll-mt-36"><div class="relative flex flex-col"><div><div class="relative"><div role="presentation" tabindex="0" class="relative flex justify-center items-center w-full px-10 py-6 rounded-2xl shadow-lg transition-all transition-all duration-500 bg-brand-25 cursor-pointer"><div class="relative rounded-xl inline-flex transition-opacity max-h-80 min-h-48"><img alt="Screenshot From 2026-01-29 18-35-29.png" loading="lazy" class="object-contain max-w-full h-auto w-auto aspect-auto transition-all duration-300 rounded-xl cursor-zoom-in opacity-100 rounded-xl inline-flex transition-opacity max-h-80" src="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/ai-devops-docker_i9j0k1l2.png"></div><input accept="image/png,.png,image/jpg,.jpg,image/jpeg,.jpeg" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: 0px -1px -1px 0px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;" tabindex="-1" type="file"></div></div></div></div></section></div></div><div class="transition-all duration-500 border-t mt-14 border-secondary"><h1 class="font-light text-2xl mb-5 mt-14 leading-8 transition-all duration-500 text-primary">Creating the Dockerfile</h1><div class=""><section id="k7l8m9n0" class="flex flex-col mb-2 scroll-mt-36"><div class="relative flex flex-col"><div class="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500 break-words text-md whitespace-pre-wrap text-secondary cursor-pointer hover:bg-brand-100/20 rounded px-1 -mx-1 transition-colors" role="button" tabindex="0">In this step, I'm building a RAG API. 'm creating files like Dockerfile, and create a Docker image based on the original image.</div></div></section></div><div class=""><section id="a3b4c5d6" class="flex flex-col mb-2 scroll-mt-36"><h2 class="text-xl mb-4 mt-8 leading-7 transition-all duration-500 text-primary">How the Dockerfile works</h2><div class="relative flex flex-col"><div class="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500 break-words text-md whitespace-pre-wrap text-secondary cursor-pointer hover:bg-brand-100/20 rounded px-1 -mx-1 transition-colors" role="button" tabindex="0">A Dockerfile is config to run cli commands for the first time the container is build. The key instructions in my Dockerfile are to tells Docker to install Python depencdencies, copy my current project files into the docker container environment and run the python scripts inside that container. </div></div></section></div><div class=""><section id="s5t6u7v8" class="flex flex-col mb-2 scroll-mt-36"><h2 class="text-xl mb-4 mt-8 leading-7 transition-all duration-500 text-primary">Containerized API test results</h2><div class="relative flex flex-col"><div class="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500 break-words text-md whitespace-pre-wrap text-secondary cursor-pointer hover:bg-brand-100/20 rounded px-1 -mx-1 transition-colors" role="button" tabindex="0">The difference between running locally and in Docker is docker helps to deploy my work in a single container and it very easy to start and setup using yml config. Containerization helps because I can control microservices via container, cleaner in building code</div></div></section></div><div class="mt-10"><section id="o1p2q3r4" class="flex flex-col mb-2 scroll-mt-36"><div class="relative flex flex-col"><div><div class="relative"><div role="presentation" tabindex="0" class="relative flex justify-center items-center w-full px-10 py-6 rounded-2xl shadow-lg transition-all transition-all duration-500 bg-brand-25 cursor-pointer"><div class="relative rounded-xl inline-flex transition-opacity max-h-80 min-h-48"><img alt="Screenshot From 2026-01-30 15-35-02.png" loading="lazy" class="object-contain max-w-full h-auto w-auto aspect-auto transition-all duration-300 rounded-xl cursor-zoom-in opacity-100 rounded-xl inline-flex transition-opacity max-h-80" src="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/ai-devops-docker_o1p2q3r4.png"></div><input accept="image/png,.png,image/jpg,.jpg,image/jpeg,.jpeg" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: 0px -1px -1px 0px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;" tabindex="-1" type="file"></div></div></div></div></section></div></div><div class="transition-all duration-500 border-t mt-14 border-secondary"><h1 class="font-light text-2xl mb-5 mt-14 leading-8 transition-all duration-500 text-primary">Building and Running the Container</h1><div class=""><section id="h7i8j9k0" class="flex flex-col mb-2 scroll-mt-36"><h2 class="text-xl mb-4 mt-8 leading-7 transition-all duration-500 text-primary">Docker image build complete</h2><div class="relative flex flex-col"><div class="focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500 break-words text-md whitespace-pre-wrap text-secondary cursor-pointer hover:bg-brand-100/20 rounded px-1 -mx-1 transition-colors" role="button" tabindex="0">My Docker container was built successfully. This confirms that my API is now containerized.</div></div></section></div><div class="mt-10"><section id="p9q0r1s2" class="flex flex-col mb-2 scroll-mt-36"><div class="relative flex flex-col"><div><div class="relative"><div role="presentation" tabindex="0" class="relative flex justify-center items-center w-full px-10 py-6 rounded-2xl shadow-lg transition-all transition-all duration-500 bg-brand-25 cursor-pointer"><div class="relative rounded-xl inline-flex transition-opacity max-h-80 min-h-48"><img alt="Screenshot From 2026-01-29 18-41-29.png" loading="lazy" class="object-contain max-w-full h-auto w-auto aspect-auto transition-all duration-300 rounded-xl cursor-zoom-in opacity-100 rounded-xl inline-flex transition-opacity max-h-80" src="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/ai-devops-docker_p9q0r1s2.png"></div><input accept="image/png,.png,image/jpg,.jpg,image/jpeg,.jpeg" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: 0px -1px -1px 0px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;" tabindex="-1" type="file"></div></div></div></div></section></div><div class="mt-10"><section id="x7y8z9a0" class="flex flex-col mb-2 scroll-mt-36"><div class="relative flex flex-col"><div><div class="relative"><div role="presentation" tabindex="0" class="relative flex justify-center items-center w-full px-10 py-6 rounded-2xl shadow-lg transition-all transition-all duration-500 bg-brand-25 cursor-pointer"><div class="relative rounded-xl inline-flex transition-opacity max-h-80 min-h-48"><img alt="Screenshot From 2026-01-30 00-07-08.png" loading="lazy" class="object-contain max-w-full h-auto w-auto aspect-auto transition-all duration-300 rounded-xl cursor-zoom-in opacity-100 rounded-xl inline-flex transition-opacity max-h-80" src="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/ai-devops-docker_x7y8z9a0.png"></div><input accept="image/png,.png,image/jpg,.jpg,image/jpeg,.jpeg" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(50%); height: 1px; margin: 0px -1px -1px 0px; overflow: hidden; padding: 0px; position: absolute; width: 1px; white-space: nowrap;" tabindex="-1" type="file"></div></div></div></div></section></div></div></div></div></div></div></div></div><div><div id="js-toolbar"><div class="" style="position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(95px); z-index: 506; width: 100%; padding-left: 16px; padding-right: 16px; margin-left: 0px; max-width: 720px;"><nw-toolbar-view-manager></nw-toolbar-view-manager></div><div class="fixed bottom-1 h-24 flex flex-col justify-center py-4 z-507 w-full px-4 left-1/2 -translate-x-1/2" style="margin-left: 0px; max-width: 720px;"><div class="pointer-events-auto transition-transform ease-in-out duration-300 flex flex-col justify-center items-center space-y-2"><div class="relative w-full"><div class="pointer-events-auto bg-white py-2 px-4 border border-secondary rounded-3xl overflow-hidden w-full flex items-center justify-between" style="box-shadow: 0px 12px 16px -4px var(--Colors-Effects-Shadows-shadow-lg_01, rgba(27, 25, 24, 0.08)), 0px 4px 6px -2px var(--Colors-Effects-Shadows-shadow-lg_02, rgba(27, 25, 24, 0.03)), 0px 2px 2px -1px var(--Colors-Effects-Shadows-shadow-lg_03, rgba(27, 25, 24, 0.04));"><div class="flex items-center flex-0 justify-start min-w-[48px]"><img alt="NextWork Logo" class="shrink-0 black cursor-pointer transition-[width,height] duration-200 ease-in-out hover:scale-110 w-10" width="40" height="40" src="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/nextwork-icon.svg"></div><div class="flex items-center justify-center mx-auto transition-all space-x-8"><nw-tooltip placement="top" delay="400,0" strategy="absolute" should-show="" allow-html=""><button class="flex items-center text-primary rounded-lg transition-all duration-200 h-11 px-3 space-x-2 hover:bg-brand-50"><div class="shrink-0 transition-all py-0.5 flex items-center space-x-1.5 min-h-6"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 10V3.6c0-.56 0-.84-.109-1.054a1 1 0 0 0-.437-.437C17.24 2 16.96 2 16.4 2H7.6c-.56 0-.84 0-1.054.109a1 1 0 0 0-.437.437C6 2.76 6 3.04 6 3.6V10m12 0H6m12 0v.2c0 1.68 0 2.52-.327 3.162a3 3 0 0 1-1.311 1.311C15.72 15 14.88 15 13.2 15h-2.4c-1.68 0-2.52 0-3.162-.327a3 3 0 0 1-1.311-1.311C6 12.72 6 11.88 6 10.2V10m8.5 5v4.5a2.5 2.5 0 0 1-5 0V15"></path></svg><span class="font-normal">Theme</span></div></button></nw-tooltip><nw-tooltip placement="top" delay="400,0" strategy="absolute" should-show="" allow-html=""><button class="flex items-center text-primary rounded-lg transition-all duration-200 h-11 px-3 space-x-2 hover:bg-brand-50"><div class="shrink-0 transition-all py-0.5 flex items-center space-x-1.5 min-h-6"><svg viewBox="0 0 24 24" width="24" height="24" class="size-5" fill="none"><rect width="22" height="22" x="1" y="1" stroke="currentColor" stroke-width="2" rx="1"></rect><path fill="currentColor" stroke="currentColor" stroke-width=".65237" d="M15.5847 9.72998c.7602.00005 1.5274.22635 2.1016.75782.5684.5262.9873 1.3889.9873 2.7451l-.001 5.4551h-2.2891v-4.7793c0-.7912-.167-1.3754-.5029-1.7637-.3441-.3979-.8154-.5332-1.29-.5332-.5181.0001-1.0371.1957-1.4258.5967-.3907.4032-.6289.9917-.6289 1.7383v4.7412h-2.2901V9.99268h2.1778v1.29492h.5664l.0898-.1816c.2373-.4799 1.1282-1.37602 2.5049-1.37602Zm-7.7578.25586v8.69436H5.53687V9.98584H7.8269ZM6.42651 5.3374c.2643-.05185.53849-.02446.78711.0791.24856.10358.46107.27883.61035.50293.11197.16813.18461.35844.21387.55664l.01465.2002v.00488c.00253.17968-.03175.35803-.09961.52442-.06786.16633-.16846.31771-.2959.44433-.12735.12646-.27871.22623-.44531.29297-.16683.0668-.34573.09939-.52539.0957H6.6814c-.26913-.00152-.53181-.08284-.75489-.23339-.22318-.15076-.39705-.36498-.49902-.61426-.10187-.2492-.12775-.52326-.07422-.78711.05358-.26374.18412-.50559.375-.69531.19103-.18981.434-.31923.69824-.3711Z"></path></svg><span class="font-normal">Share on LinkedIn</span></div></button></nw-tooltip><nw-tooltip placement="top" delay="400,0" strategy="absolute" should-show="" allow-html=""><button class="flex items-center text-primary rounded-lg transition-all duration-200 h-11 px-3 space-x-2 hover:bg-brand-50"><div class="shrink-0 transition-all py-0.5 flex items-center space-x-1.5 min-h-6"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 9V3m0 0h-6m6 0-9 9m-2-9H7.8c-1.68 0-2.52 0-3.162.327a3 3 0 0 0-1.311 1.311C3 5.28 3 6.12 3 7.8v8.4c0 1.68 0 2.52.327 3.162a3 3 0 0 0 1.311 1.311C5.28 21 6.12 21 7.8 21h8.4c1.68 0 2.52 0 3.162-.327a3 3 0 0 0 1.311-1.311C21 18.72 21 17.88 21 16.2V14"></path></svg><span class="font-normal">Share</span></div></button></nw-tooltip></div><div class="flex items-center flex-0 justify-end min-w-[48px]"><nw-tooltip content="My profile" placement="top" delay="400,0" strategy="absolute"><div class="relative shrink-0 bg-secondary flex items-center justify-center transition-[width,height] duration-200 ease-in-out cursor-pointer hover:brightness-95 rounded-full border h-10 w-10 border-2 border-brand-400"><img alt="Profile image" draggable="false" class="w-full h-full object-cover pointer-events-none select-none rounded-full" src="2.%20Containerize%20a%20RAG%20API%20with%20Docker_files/unnamed.png"><div class="w-3 h-3 bg-success-500 rounded-full border-2 border-white absolute bottom-0 right-0"></div></div></nw-tooltip></div></div></div></div></div><div style="position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(95px); z-index: 506; width: 100%; padding-left: 16px; padding-right: 16px; margin-left: 0px; pointer-events: none; max-width: 720px;"></div></div></div></div><section aria-label="Notifications alt+T" tabindex="-1" aria-live="polite" aria-relevant="additions text" aria-atomic="false"></section><div class="pointer-events-none fixed z-40 hidden h-72.5 w-130 transition duration-500 xs:block top-0 right-0 invisible opacity-0" style="background: linear-gradient(215deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 50%);"></div><div class="pointer-events-none fixed z-40 hidden h-72.5 w-130 transition duration-500 xs:block top-0 left-0 invisible opacity-0" style="background: linear-gradient(139deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 40.64%);"></div><div class="pointer-events-none fixed z-40 hidden h-72.5 w-130 transition duration-500 xs:block bottom-0 right-0 invisible opacity-0" style="background: linear-gradient(148deg, rgba(0, 0, 0, 0) 58.58%, rgba(0, 0, 0, 0.1) 97.86%);"></div><div class="pointer-events-none fixed z-40 hidden h-72.5 w-130 transition duration-500 xs:block bottom-0 left-0 invisible opacity-0" style="background: linear-gradient(214deg, rgba(0, 0, 0, 0) 54.54%, rgba(0, 0, 0, 0.1) 95.71%);"></div><div class="pointer-events-none fixed right-0 bottom-0 left-0 z-40 h-67.5 w-full bg-linear-to-t from-black/10 to-transparent transition duration-500 xs:hidden invisible opacity-0"></div></div></div>
+
+    
+
+    <noscript>
+      <style>
+        .no-js-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 9999;
+          font-family: system-ui, sans-serif;
+          padding: 3rem 1rem;
+        }
+
+        .no-js-logo {
+          position: absolute;
+          top: 1rem;
+          left: 1rem;
+          padding: 0.5rem;
+          background: white;
+          border-radius: 0.75rem;
+        }
+
+        .no-js-container {
+          padding-bottom: 10rem;
+          max-width: 36rem;
+          width: 100%;
+          text-align: left;
+          color: #1f2937;
+        }
+
+        .no-js-badge {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          border: 1px solid #d1d5db;
+          border-radius: 0.5rem;
+          width: fit-content;
+          padding: 0.25rem 0.625rem;
+          margin-bottom: 1rem;
+        }
+
+        .no-js-badge-dot {
+          background: #1b1918;
+          width: 0.5rem;
+          height: 0.5rem;
+          border-radius: 50%;
+        }
+
+        .no-js-badge-text {
+          font-size: 0.875rem;
+          color: #374151;
+        }
+
+        .no-js-heading {
+          font-size: 3.75rem;
+          font-weight: 600;
+          line-height: 1;
+          margin: 1.5rem 0;
+          color: #111827;
+        }
+
+        .no-js-description {
+          font-size: 1.25rem;
+          color: #6b7280;
+          line-height: 1.6;
+          margin: 0;
+          width: 80%;
+        }
+
+        .no-js-shield {
+          width: 2.4rem;
+          height: 2.4rem;
+        }
+
+        .no-js-logo-image {
+          width: 2rem;
+          height: 2rem;
+        }
+
+        @media (max-width: 768px) {
+          .no-js-heading {
+            font-size: 2.5rem;
+          }
+
+          .no-js-description {
+            font-size: 1.125rem;
+            width: 100%;
+          }
+
+          .no-js-container {
+            padding: 0 1rem;
+          }
+        }
+      </style>
+      <div class="no-js-overlay">
+        <div class="no-js-logo">
+          <img
+            src="/static/nextwork-icon-back.svg"
+            alt="NextWork logo"
+            class="no-js-logo-image"
+          />
+        </div>
+        <div class="no-js-container">
+          <img
+            src="/static/shield-zap.svg"
+            alt="Shield with zap icon"
+            class="no-js-shield"
+          />
+          <h1 class="no-js-heading">JavaScript is required, whaaaaaaat!</h1>
+          <p class="no-js-description">
+            NextWork requires JavaScript to function properly. Please enable
+            JavaScript or disable any script-blocking tools like Brave Shields
+            to use this site.
+          </p>
+        </div>
+      </div>
+    </noscript>
+  
+
+<input type="file" multiple="multiple" class="dz-hidden-input" accept=".jpg,.png" tabindex="-1" style="visibility: hidden; position: absolute; top: 0px; left: 0px; height: 0px; width: 0px;"><input type="file" multiple="multiple" class="dz-hidden-input" accept=".jpg,.png" tabindex="-1" style="visibility: hidden; position: absolute; top: 0px; left: 0px; height: 0px; width: 0px;"><input type="file" multiple="multiple" class="dz-hidden-input" accept=".jpg,.png" tabindex="-1" style="visibility: hidden; position: absolute; top: 0px; left: 0px; height: 0px; width: 0px;"><input type="file" multiple="multiple" class="dz-hidden-input" accept=".jpg,.png" tabindex="-1" style="visibility: hidden; position: absolute; top: 0px; left: 0px; height: 0px; width: 0px;"><input type="file" multiple="multiple" class="dz-hidden-input" accept=".jpg,.png" tabindex="-1" style="visibility: hidden; position: absolute; top: 0px; left: 0px; height: 0px; width: 0px;"><input type="file" multiple="multiple" class="dz-hidden-input" accept=".jpg,.png" tabindex="-1" style="visibility: hidden; position: absolute; top: 0px; left: 0px; height: 0px; width: 0px;"></body></html>

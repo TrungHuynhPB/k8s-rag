@@ -8,5 +8,15 @@ services:
       - ollama:/root/.ollama
     restart: unless-stopped
 
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - ollama
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - CHROMA_TELEMETRY=false
+
 volumes:
   ollama:
