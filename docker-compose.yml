@@ -9,7 +9,10 @@ services:
     restart: unless-stopped
 
   api:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: k8s-rag-api:0.1.0
     ports:
       - "8000:8000"
     depends_on:
