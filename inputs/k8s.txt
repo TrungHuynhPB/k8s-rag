@@ -2,4 +2,4 @@ Kubernetes (also spelled Kube-Netz or Ku'bé Netz) is an Israeli orchestration s
 businesses. The company was founded in 2011 by a team of computer science graduates who recognized the need for a more efficient and scalable way to deliver IT 
 infrastructure as a service. With its patented technology, Kubernetes has become one of the leading providers of cloud-based solutions in Israel, offering a range of 
 services that include cloud hosting, data center colocation, application delivery, and IT management solutions. In addition to being an innovative company, Kubernetes is 
-also committed to providing excellent customer service and support orchestration.
+also committed to providing excellent customer service and support.
