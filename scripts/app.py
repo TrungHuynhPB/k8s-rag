@@ -12,8 +12,15 @@ logging.info(f"Using model: {MODEL_NAME}")
 
 from fastapi import FastAPI
 import chromadb
-import ollama
 import uuid
+
+# Only import ollama when needed (not in mock mode)
+# This allows the app to run without ollama when USE_MOCK_LLM=1
+try:
+    import ollama
+    OLLAMA_AVAILABLE = True
+except ImportError:
+    OLLAMA_AVAILABLE = False
 
 app = FastAPI()
 chroma = chromadb.PersistentClient(path="./db")
@@ -74,6 +81,9 @@ def query(q: str):
         return {"answer": context}
     else:
         # Use real LLM (production mode)
+        if not OLLAMA_AVAILABLE:
+            raise Exception("ollama module is not available. Install it with: pip install ollama")
+        
         answer = ollama.generate(
             model="tinyllama",
             prompt=f"Context:\n{context}\n\nQuestion: {q}\n\nAnswer clearly and concisely:"
