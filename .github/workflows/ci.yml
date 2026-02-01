@@ -6,7 +6,7 @@ on:
       - 'inputs/k8s.txt'
       - 'scripts/app.py'
       - 'scripts/embed.py'
-      - 'scripts/semantic_test.py'
+      - 'semantic_test.py'
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
