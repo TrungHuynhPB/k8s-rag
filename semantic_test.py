@@ -1,7 +1,7 @@
 import requests
 
 def test_kubernetes_query():
-    response = requests.post("http://192.168.49.2:30816/query?q=What is Kubernetes?")
+    response = requests.post("http://0.0.0.0:8000/query?q=What is Kubernetes?")
     
     if response.status_code != 200:
         raise Exception(f"Server returned {response.status_code}: {response.text}")
