@@ -25,7 +25,7 @@ jobs:
           pip install fastapi uvicorn chromadb requests
 
       - name: Rebuild embeddings
-        run: python embed.py
+        run: python scripts/embed.py
 
       - name: Start API in mock mode
         run: |
